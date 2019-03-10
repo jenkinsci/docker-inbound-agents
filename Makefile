@@ -10,9 +10,17 @@ GROUP?=jenkins
 PREFIX?=jnlp-agent
 
 build:
+	set -e; \
 	for d in $$(find . -name Dockerfile -type f); do \
 		name=$$(echo $$(dirname $$d) | cut -b 3- ); \
-		docker build -t $(GROUP)/$(PREFIX)-$${name} $${name}; \
+		$(MAKE) -C $$name GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
+	done;
+
+push:
+	set -e; \
+	for d in $$(find . -name Dockerfile -type f); do \
+		name=$$(echo $$(dirname $$d) | cut -b 3- ); \
+		$(MAKE) -C $$name push GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
 	done;
 
 check: build
