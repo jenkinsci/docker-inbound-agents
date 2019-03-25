@@ -2,7 +2,9 @@ FROM jenkins/jnlp-slave:alpine
 
 USER root
 
-RUN apk add -U make curl
+# Alpine seems to come with libcurl baked in, which is prone to mismatching
+# with newer versions of curl. The solution is to upgrade libcurl.
+RUN apk update && apk add -u libcurl curl
 # Install Docker client
 ARG DOCKER_VERSION=18.03.0-ce
 ARG DOCKER_COMPOSE_VERSION=1.21.0
