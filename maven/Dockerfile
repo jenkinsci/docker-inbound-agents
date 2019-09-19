@@ -1,6 +1,6 @@
 FROM jenkins/jnlp-slave:alpine as jnlp
 
-FROM maven:3-jdk-8-slim
+FROM maven:3.6.2-jdk-8-slim
 
 RUN apt-get update && \
     apt-get install -y \
