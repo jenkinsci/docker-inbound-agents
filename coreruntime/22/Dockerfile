@@ -1,4 +1,4 @@
-FROM jenkins/jnlp-slave:alpine as jnlp
+@FROM jenkins/jnlp-slave:alpine as jnlp
 
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2-alpine
 
