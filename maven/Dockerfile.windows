@@ -1,6 +1,7 @@
-FROM jenkins4eval/jnlp-agent:latest-windows as jnlp
+FROM jenkins/jnlp-agent:latest-windows as jnlp
 
-FROM maven:3-jdk-8-windows
+FROM csanchez/maven:3-jdk-8-windowsservercore-1809
+
 
 COPY --from=jnlp C:/ProgramData/Jenkins/jenkins-agent.ps1 C:/ProgramData/Jenkins/jenkins-agent.ps1
 COPY --from=jnlp C:/ProgramData/Jenkins/agent.jar C:/ProgramData/Jenkins/agent.jar
