@@ -25,9 +25,8 @@ if(![System.String]::IsNullOrWhiteSpace($env:PREFIX)) {
 }
 
 function Build() {
-	Get-ChildItem -Include "Dockerfile.windows" -File -Recurse | ForEach-Object { 
-		$name = ([System.IO.Path]::GetDirectoryName($_.FullName) -split '\\' | Select-Object -Last 1)
-		Push-Location .\$name
+	Get-ChildItem -Include "Dockerfile.windows*" -File -Recurse | Split-Path -Parent | Get-Unique | ForEach-Object {
+		Push-Location $_
 		try {
 			.\make.ps1 -Target build -Group "$Group" -Prefix "$Prefix"
 		} finally {
@@ -37,9 +36,8 @@ function Build() {
 }
 
 function Push() {
-	Get-ChildItem -Include "Dockerfile.windows" -File -Recurse | ForEach-Object { 
-		$name = ([System.IO.Path]::GetDirectoryName($_.FullName) -split '\\' | Select-Object -Last 1)
-		Push-Location $name
+	Get-ChildItem -Include "Dockerfile.windows*" -File -Recurse | Split-Path -Parent | Get-Unique | ForEach-Object {
+		Push-Location $_
 		try {
 			.\make.ps1 -Target push -Group "$Group" -Prefix "$Prefix"
 		} finally {
