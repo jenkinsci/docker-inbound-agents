@@ -1,0 +1,10 @@
+FROM jenkins/jnlp-agent:latest-windows-jdk11 as jnlp
+
+FROM csanchez/maven:3-jdk-11-nanoserver-1809
+
+COPY --from=jnlp C:/ProgramData/Jenkins/jenkins-agent.ps1 C:/ProgramData/Jenkins/jenkins-agent.ps1
+COPY --from=jnlp C:/ProgramData/Jenkins/agent.jar C:/ProgramData/Jenkins/agent.jar
+
+ENV JAVA_HOME ${JAVA_HOME}
+
+ENTRYPOINT ["pwsh.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
