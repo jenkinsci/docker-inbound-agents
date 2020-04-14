@@ -1,11 +1,17 @@
-FROM jenkins/jnlp-agent:latest-windows as jnlp
+# escape=`
+FROM csanchez/maven:3-jdk-8-windowsservercore-1809 as maven
 
-FROM csanchez/maven:3-jdk-8-windowsservercore-1809
+FROM jenkins/inbound-agent:windowsservercore-1809
 
-
-COPY --from=jnlp C:/ProgramData/Jenkins/jenkins-agent.ps1 C:/ProgramData/Jenkins/jenkins-agent.ps1
-COPY --from=jnlp C:/ProgramData/Jenkins/agent.jar C:/ProgramData/Jenkins/agent.jar
+COPY --from=maven C:/ProgramData/Maven C:/ProgramData/Maven
 
 ENV JAVA_HOME ${JAVA_HOME}
+ENV MAVEN_HOME C:/ProgramData/Maven
+
+USER ContainerAdministrator
+
+RUN setx PATH (('{0};{1}\bin' -f $env:PATH,$env:MAVEN_HOME).Replace(';;', ';').Replace('/', '\')) /m
+
+USER jenkins
 
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
