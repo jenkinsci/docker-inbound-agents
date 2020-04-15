@@ -8,10 +8,7 @@ COPY --from=maven C:/ProgramData/Maven C:/ProgramData/Maven
 ENV JAVA_HOME ${JAVA_HOME}
 ENV MAVEN_HOME C:/ProgramData/Maven
 
-USER ContainerAdministrator
-
-RUN setx PATH (('{0};{1}\bin' -f $env:PATH,$env:MAVEN_HOME).Replace(';;', ';').Replace('/', '\')) /m
-
-USER jenkins
+# Windows docker doesn't work well with paths, so we have to expose this using ENV
+ENV PATH "${PATH};${MAVEN_HOME}\bin"
 
 ENTRYPOINT ["pwsh.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]

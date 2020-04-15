@@ -16,7 +16,7 @@ pipeline {
             parallel {
                 stage('Windows') {
                     agent {
-                        label "windock&&windows"
+                        label "windock"
                     }
                     steps {
                         bat "powershell -File ./make.ps1 -Target build"
@@ -41,7 +41,7 @@ pipeline {
             parallel {
                 stage('Windows') {
                     agent {
-                        label "windock&&windows"
+                        label "windock"
                     }
                     steps {
                         withCredentials([[$class: 'ZipFileBinding',
