@@ -2,9 +2,7 @@
 Param(
     [Parameter(Position=1)]
 	[String] $Target = 'build',
-
 	[String] $Group = 'jenkins',
-
 	[String] $Prefix = 'jnlp-agent'
 )
 

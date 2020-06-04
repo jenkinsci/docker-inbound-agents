@@ -38,7 +38,9 @@ function Make() {
 
 	function Push() {
 		Get-ChildItem -Path * -Include "Dockerfile.windows*" | ForEach-Object {
-			$fullName='{0}-{1}' -f $NAME,[System.IO.Path]::GetExtension($_.FullName).Replace(".windows", "")
+            $fullName='{0}-{1}' -f $NAME,[System.IO.Path]::GetExtension($_.FullName).Replace(".windows", "").TrimStart('-')
+            $fullName = $fullName.Trim('-')
+            Write-Host "Pushing $fullName"
 			docker push $fullName
 		}
 	}
