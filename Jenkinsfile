@@ -13,8 +13,23 @@ pipeline {
 
     stages { 
         stage('Build') {
-            steps {
-                sh 'make build'
+            parallel {
+                stage('Windows') {
+                    agent {
+                        label "windock"
+                    }
+                    steps {
+                        bat "powershell -File ./make.ps1 -Target build"
+                    }
+                }
+                stage('Linux') {
+                    agent {
+                        label "docker&&linux"
+                    }
+                    steps {
+                        sh "make build"
+                    }
+                }
             }
         }
 
@@ -23,11 +38,30 @@ pipeline {
                 expression { infra.isTrusted() }
             }
 
-            steps {
-                withCredentials([[$class: 'ZipFileBinding',
+            parallel {
+                stage('Windows') {
+                    agent {
+                        label "windock"
+                    }
+                    steps {
+                        withCredentials([[$class: 'ZipFileBinding',
                            credentialsId: 'jenkins-dockerhub',
                                 variable: 'DOCKER_CONFIG']]) {
-                    sh 'make push'
+                            bat "powershell -File ./make.ps1 -Target push"
+                        }
+                    }
+                }
+                stage('Linux') {
+                    agent {
+                        label "docker&&linux"
+                    }
+                    steps {
+                        withCredentials([[$class: 'ZipFileBinding',
+                           credentialsId: 'jenkins-dockerhub',
+                                variable: 'DOCKER_CONFIG']]) {
+                            sh 'make push'
+                        }
+                    }
                 }
             }
         }

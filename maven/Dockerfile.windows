@@ -1,0 +1,14 @@
+# escape=`
+FROM csanchez/maven:3-jdk-8-windowsservercore-1809 as maven
+
+FROM jenkins/inbound-agent:windowsservercore-1809
+
+COPY --from=maven C:/ProgramData/Maven C:/ProgramData/Maven
+
+ENV JAVA_HOME ${JAVA_HOME}
+ENV MAVEN_HOME C:/ProgramData/Maven
+
+# Windows docker doesn't work well with paths, so we have to expose this using ENV
+ENV PATH "${PATH};${MAVEN_HOME}\bin"
+
+ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
