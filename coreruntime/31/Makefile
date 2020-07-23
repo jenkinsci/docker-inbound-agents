@@ -1,2 +1,2 @@
-SUFFIX=coreruntime:3.0
+SUFFIX=coreruntime:3.1
 include ../../common.mk
