@@ -12,7 +12,11 @@ pipeline {
     }
 
     stages { 
-        stage('Build') {
+        stage('Build Only') {
+            when {
+                expression { !infra.isTrusted() }
+            }
+
             parallel {
                 stage('Windows') {
                     agent {
@@ -33,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Publish') {
+        stage('Build and Publish') {
             when {
                 expression { infra.isTrusted() }
             }
