@@ -34,6 +34,7 @@ function Build() {
 }
 
 function Push() {
+	Build
 	Get-ChildItem -Include "Dockerfile.windows*" -File -Recurse | Split-Path -Parent | Get-Unique | ForEach-Object {
 		Push-Location $_
 		try {
