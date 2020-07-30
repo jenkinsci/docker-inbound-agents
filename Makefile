@@ -16,7 +16,7 @@ build:
 		$(MAKE) -C $$name GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
 	done;
 
-push:
+push: build
 	set -e; \
 	for d in $$(find . -name Dockerfile -type f); do \
 		name=$$(echo $$(dirname $$d) | cut -b 3- ); \
