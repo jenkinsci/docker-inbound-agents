@@ -16,7 +16,13 @@ NAME=$(GROUP)/$(PREFIX)-$(SUFFIX)
 build:
 	docker build -t $(NAME) .
 
+lint:
+	echo $(NAME)-lint
+
+test:
+	echo test
+
 push:
 	docker push $(NAME)
 
-.PHONY: build push
+.PHONY: lint build test push
