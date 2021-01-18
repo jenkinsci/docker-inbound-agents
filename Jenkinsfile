@@ -12,6 +12,11 @@ pipeline {
     }
 
     stages { 
+        stage('Lint') {
+            steps {
+                sh "make lint"
+            }
+        }
         stage('Build Only') {
             when {
                 expression { !infra.isTrusted() }

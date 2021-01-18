@@ -17,7 +17,7 @@ build:
 	docker build -t $(NAME) .
 
 lint:
-	echo $(NAME)-lint
+	docker run --rm -i hadolint/hadolint:v1.19.0 < Dockerfile || true
 
 test:
 	echo test
