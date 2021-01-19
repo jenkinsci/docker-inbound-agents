@@ -17,7 +17,7 @@ pipeline {
                 sh "make lint"
             }
         }
-        stage('Build Only') {
+        stage('Build and Test') {
             when {
                 expression { !infra.isTrusted() }
             }
@@ -37,10 +37,12 @@ pipeline {
                     }
                     steps {
                         sh "make build"
+                        sh "make test"
                     }
                 }
             }
         }
+        
 
         stage('Build and Publish') {
             when {
