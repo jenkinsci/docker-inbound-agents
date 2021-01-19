@@ -1,0 +1,7 @@
+schemaVersion: 2.0.0
+
+fileExistenceTests:
+
+  - name: 'Jenkins agent'
+    path: '/usr/local/bin/jenkins-agent'
+    shouldExist: true
