@@ -27,7 +27,7 @@ lint: lint.run
 	done;
 
 
-clean:
+clean: clean.run
 	docker images -qf "reference=${GROUP}/${PREFIX}*" | xargs -r docker rmi
 
 

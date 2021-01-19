@@ -26,6 +26,9 @@ lint:
 test: $(IMAGE_TAR)
 	container-structure-test test --driver=tar --image=$(IMAGE_TAR) --config=$(ROOT_DIR)/cst.yml
 
+clean:
+	rm -f *.tar
+
 push:
 	docker load $(IMAGE_TAR)
 	docker push $(NAME)
@@ -33,4 +36,4 @@ push:
 $(IMAGE_TAR): build 
 	docker save --output $(IMAGE_TAR) $(NAME)
 
-.PHONY: lint build test push
+.PHONY: lint build test push clean
