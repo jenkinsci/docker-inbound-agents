@@ -11,10 +11,13 @@ PREFIX?=jnlp-agent
 
 # This will run a given make command passed in at the command line, but only if .PHONY commented out
 build: build.run
+	@echo "== All Builds ✅ Succeeded"
 
 push: push.run
+	@echo "== All Pushes ✅ Succeeded"
 
 test: test.run
+	@echo "== All Tests ✅ Succeeded"
 
 lint: lint.run
 
@@ -22,10 +25,8 @@ lint: lint.run
 	set -e; \
 	for d in $$(find . -name Dockerfile -type f); do \
 		name=$$(basename $$(dirname $$d)); \
-		echo $${name}; \
 		$(MAKE) -C $$(dirname $$d) $* GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
 	done;
-
 
 clean: clean.run
 	docker images -qf "reference=${GROUP}/${PREFIX}*" | xargs -r docker rmi

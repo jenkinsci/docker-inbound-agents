@@ -21,7 +21,7 @@ build: lint
 	docker build -t $(NAME) .
 
 lint:
-	docker run --rm -i hadolint/hadolint:v1.19.0 < Dockerfile || true
+	@docker run --rm -i hadolint/hadolint:v1.19.0 < Dockerfile || echo "== Lint Tests for $(SUFFIX) ⚠️  Did Not Succeed"
 
 test: $(IMAGE_TAR)
 	container-structure-test test --driver=tar --image=$(IMAGE_TAR) --config=$(ROOT_DIR)/cst.yml

@@ -69,7 +69,6 @@ pipeline {
                            credentialsId: 'jenkins-dockerhub',
                                 variable: 'DOCKER_CONFIG']]) {
                             sh 'make push'
-
                         }
                     }
                 }
