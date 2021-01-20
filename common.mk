@@ -11,31 +11,30 @@ PREFIX?=jnlp-agent
 # SUFFIX defaults to the directory name
 SUFFIX?=$(shell basename $(shell pwd))
 
-IMAGE_TAR?=$(SUFFIX)-image.tar
-
 ROOT_DIR?=$(dir $(lastword $(MAKEFILE_LIST)))
+
+IMAGE_TAR?=$(ROOT_DIR)/.tmp/$(SUFFIX)-image.tar
 
 ABS_ROOT_DIR=$(realpath $(ROOT_DIR))
 
 NAME=$(GROUP)/$(PREFIX)-$(SUFFIX)
 
-build: lint
+build:
 	docker build -t $(NAME) .
+	mkdir -p $(shell dirname $(IMAGE_TAR))
+	docker save --output $(IMAGE_TAR) $(NAME)
 
 lint:
 	@docker run --rm -i hadolint/hadolint:v1.19.0 < Dockerfile || echo "== Lint Tests for $(SUFFIX) ⚠️  Did Not Succeed"
 
-test: $(IMAGE_TAR)
+test: build
 	@docker run --rm --volume="$(ABS_ROOT_DIR):$(ABS_ROOT_DIR)" --workdir="$(shell pwd)" gcr.io/gcp-runtimes/container-structure-test:v1.10.0 test --driver=tar --image=$(IMAGE_TAR) --config=$(ROOT_DIR)/cst.yml
 
 clean:
 	rm -f *.tar
 
-push:
+push: build
 	docker load $(IMAGE_TAR)
 	docker push $(NAME)
-
-$(IMAGE_TAR): build
-	docker save --output $(IMAGE_TAR) $(NAME)
 
 .PHONY: lint build test push clean
