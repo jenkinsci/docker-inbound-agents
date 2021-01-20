@@ -1,14 +1,7 @@
 schemaVersion: 2.0.0
 
 metadataTest:
-  # env:
-  #   - key: "VIRTUAL_ENV"
-  #     value: "/env"
-  # exposedPorts: ["8080", "2345"]
-  # volumes: ["/test"]
   entrypoint: ["/usr/local/bin/jenkins-agent"]
-  # cmd: ["/bin/bash"]
-  # workdir: ["/app"]
 
 fileExistenceTests:
 
