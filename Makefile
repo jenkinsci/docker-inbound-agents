@@ -9,24 +9,27 @@ GROUP?=jenkins
 # names
 PREFIX?=jnlp-agent
 
-build:
+# This will run a given make command passed in at the command line, but only if .PHONY commented out
+build: build.run
+	@echo "== All Builds ✅ Succeeded"
+
+push: push.run
+	@echo "== All Pushes ✅ Succeeded"
+
+test: test.run
+	@echo "== All Tests ✅ Succeeded"
+
+lint: lint.run
+
+%.run: 
 	set -e; \
 	for d in $$(find . -name Dockerfile -type f); do \
-		name=$$(echo $$(dirname $$d) | cut -b 3- ); \
-		$(MAKE) -C $$name GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
+		name=$$(basename $$(dirname $$d)); \
+		$(MAKE) -C $$(dirname $$d) $* GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
 	done;
 
-push: build
-	set -e; \
-	for d in $$(find . -name Dockerfile -type f); do \
-		name=$$(echo $$(dirname $$d) | cut -b 3- ); \
-		$(MAKE) -C $$name push GROUP=$(GROUP) PREFIX=$(PREFIX) SUFFIX=$$name; \
-	done;
-
-check: build
-
-clean:
+clean: clean.run
 	docker images -qf "reference=${GROUP}/${PREFIX}*" | xargs -r docker rmi
 
 
-.PHONY: build check clean
+.PHONY: lint build test push clean

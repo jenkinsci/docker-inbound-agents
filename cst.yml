@@ -1,0 +1,13 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  entrypoint: ["/usr/local/bin/jenkins-agent"]
+
+fileExistenceTests:
+
+  - name: 'Jenkins agent'
+    path: '/usr/local/bin/jenkins-agent'
+    shouldExist: true
+  - name: 'Jenkins agent jar file'
+    path: '/usr/share/jenkins/agent.jar'
+    shouldExist: true

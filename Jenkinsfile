@@ -11,8 +11,8 @@ pipeline {
         cron('@daily')
     }
 
-    stages { 
-        stage('Build Only') {
+    stages {
+        stage('Build and Test') {
             when {
                 expression { !infra.isTrusted() }
             }
@@ -31,11 +31,14 @@ pipeline {
                         label "docker&&linux"
                     }
                     steps {
+                        sh "make lint"
                         sh "make build"
+                        sh "make test"
                     }
                 }
             }
         }
+
 
         stage('Build and Publish') {
             when {
