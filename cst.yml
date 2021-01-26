@@ -8,6 +8,17 @@ fileExistenceTests:
   - name: 'Jenkins agent'
     path: '/usr/local/bin/jenkins-agent'
     shouldExist: true
+    isExecutableBy: 'any'
   - name: 'Jenkins agent jar file'
     path: '/usr/share/jenkins/agent.jar'
     shouldExist: true
+  - name: 'directory for jenkins user created'
+    path: '/home/jenkins'
+    shouldExist: true
+    isExecutableBy: 'any'
+
+
+fileContentTests:
+  - name: 'user created as non-root user'
+    path: '/etc/passwd'
+    expectedContents: ['.*jenkins:x:100\d:100\d.*']
