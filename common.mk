@@ -5,9 +5,9 @@
 # GROUP can be overridden in the environment to root the docker images under
 # different registry namespace
 GROUP?=jenkins
-# PREFIX defaults to `jnlp-agent` and can be changed to compute different image
+# PREFIX defaults to `inbound-agent` and can be changed to compute different image
 # names
-PREFIX?=jnlp-agent
+PREFIX?=inbound-agent
 # SUFFIX defaults to the directory name
 SUFFIX?=$(shell basename $(shell pwd))
 

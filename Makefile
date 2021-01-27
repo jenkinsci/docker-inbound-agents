@@ -5,9 +5,9 @@
 # GROUP can be overridden in the environment to root the docker images under
 # different registry namespace
 GROUP?=jenkins
-# PREFIX defaults to `jnlp-agent` and can be changed to compute different image
+# PREFIX defaults to `inbound-agent` and can be changed to compute different image
 # names
-PREFIX?=jnlp-agent
+PREFIX?=inbound-agent
 
 # This will run a given make command passed in at the command line, but only if .PHONY commented out
 build: build.run
@@ -21,7 +21,7 @@ test: test.run
 
 lint: lint.run
 
-%.run: 
+%.run:
 	set -e; \
 	for d in $$(find . -name Dockerfile -type f); do \
 		name=$$(basename $$(dirname $$d)); \
