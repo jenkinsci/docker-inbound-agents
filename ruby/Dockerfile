@@ -13,5 +13,6 @@ COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
 ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
 
 ARG user=jenkins
-RUN useradd -c "Jenkins user" -m ${user}
+RUN useradd -c "Jenkins user" -m ${user} \
+    && chmod 750 /home/${user}
 USER ${user}

@@ -15,7 +15,7 @@ fileExistenceTests:
   - name: 'directory for jenkins user created'
     path: '/home/jenkins'
     shouldExist: true
-    isExecutableBy: 'any'
+    permissions: 'drwxr-x---'
 
 
 fileContentTests:

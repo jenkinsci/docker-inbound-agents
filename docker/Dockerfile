@@ -13,5 +13,6 @@ RUN curl -fsSL https://github.com/docker/compose/releases/download/$DOCKER_COMPO
 
 RUN touch /debug-flag
 USER jenkins
+RUN chmod 750 /home/jenkins
 
 ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
