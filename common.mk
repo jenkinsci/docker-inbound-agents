@@ -4,7 +4,7 @@
 #
 # GROUP can be overridden in the environment to root the docker images under
 # different registry namespace
-GROUP?=jenkins
+GROUP?=jenkinsciinfra
 # PREFIX defaults to `inbound-agent` and can be changed to compute different image
 # names
 PREFIX?=inbound-agent
