@@ -1,0 +1,8 @@
+FROM jenkins/inbound-agent:alpine as jnlp
+
+FROM python:alpine
+
+ARG adduser='adduser -D'
+
+RUN apk -U add openjdk8-jre
+

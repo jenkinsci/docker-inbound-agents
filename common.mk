@@ -20,7 +20,10 @@ ABS_ROOT_DIR=$(realpath $(ROOT_DIR))
 NAME=$(GROUP)/$(PREFIX)-$(SUFFIX)
 
 build:
+	cat Dockerfile.base-$(SUFFIX) > Dockerfile
+	cat $(ROOT_DIR)Dockerfile.common >> Dockerfile
 	docker build -t $(NAME) .
+	rm Dockerfile
 	mkdir -p $(shell dirname $(IMAGE_TAR))
 	docker save --output $(IMAGE_TAR) $(NAME)
 

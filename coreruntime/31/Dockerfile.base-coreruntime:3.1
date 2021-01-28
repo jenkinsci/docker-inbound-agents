@@ -1,0 +1,7 @@
+FROM jenkins/inbound-agent:alpine as jnlp
+
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine
+
+ARG adduser='adduser -D'
+
+RUN apk -U add openjdk8-jre

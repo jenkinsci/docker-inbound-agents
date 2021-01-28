@@ -1,0 +1,8 @@
+FROM jenkins/inbound-agent:alpine as jnlp
+
+FROM mcr.microsoft.com/powershell:7.1.0-alpine-3.10
+
+ARG adduser='adduser -D'
+
+RUN apk -U add openjdk11-jre
+

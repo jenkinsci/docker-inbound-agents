@@ -1,0 +1,9 @@
+FROM jenkins/inbound-agent:alpine as jnlp
+
+FROM hashicorp/terraform:light
+
+ARG adduser='adduser -D'
+
+RUN apk -U add openjdk8-jre
+
+
