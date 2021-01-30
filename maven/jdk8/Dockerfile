@@ -6,7 +6,9 @@ RUN apt-get update && \
     apt-get install -y \
         git bash \
         libfontconfig1 \
-        libfreetype6
+        libfreetype6 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=jnlp /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent
 COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
@@ -17,4 +19,3 @@ ARG user=jenkins
 RUN useradd -c "Jenkins user" -m ${user} \
     && chmod 750 /home/${user}
 USER ${user}
-
