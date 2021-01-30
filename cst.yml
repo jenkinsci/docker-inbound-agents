@@ -12,13 +12,21 @@ fileExistenceTests:
   - name: 'Jenkins agent jar file'
     path: '/usr/share/jenkins/agent.jar'
     shouldExist: true
-  - name: 'directory for jenkins user created'
+  - name: "Default user's home"
     path: '/home/jenkins'
     shouldExist: true
     permissions: 'drwxr-x---'
+  - name: 'Bash'
+    path: '/bin/bash'
+    shouldExist: true
+    isExecutableBy: 'any'
+  - name: 'Git'
+    path: '/usr/bin/git'
+    shouldExist: true
+    isExecutableBy: 'any'
 
 
 fileContentTests:
-  - name: 'user created as non-root user'
+  - name: 'Default user exists with the correct non-root UID/GID'
     path: '/etc/passwd'
     expectedContents: ['.*jenkins:x:100\d:100\d.*']

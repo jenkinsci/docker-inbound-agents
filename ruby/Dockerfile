@@ -3,7 +3,7 @@ FROM jenkins/inbound-agent:alpine as jnlp
 FROM ruby:2-stretch
 
 RUN apt-get update -qq && \
-    apt-get install -qy git openjdk-8-jre-headless && \
+    apt-get install -qy git bash openjdk-8-jre-headless && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

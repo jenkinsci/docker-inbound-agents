@@ -4,7 +4,7 @@ FROM maven:3.6.3-jdk-11-slim
 
 RUN apt-get update && \
     apt-get install -y \
-        git \
+        git bash \
         libfontconfig1 \
         libfreetype6
 

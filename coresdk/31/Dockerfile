@@ -2,9 +2,8 @@ FROM jenkins/inbound-agent:alpine as jnlp
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
 
-RUN apk -U add openjdk8-jre git openssh && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm /var/cache/apk/*
+RUN apk add --no-cache bash git openjdk8-jre openssh && \
+    rm -rf /var/lib/apt/lists/* 
 
 COPY --from=jnlp /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent
 COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
