@@ -67,10 +67,8 @@ spec:
           }
           stage("Lint") {
             steps {
-              catchError {
-                dir(IMAGE_DIR) {
-                  sh 'make -C ${WORKSPACE}/ lint'
-                }
+              dir(IMAGE_DIR) {
+                sh 'make -C ${WORKSPACE}/ lint'
               }
             }
             post {
