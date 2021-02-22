@@ -7,15 +7,15 @@ pipeline {
   }
 
   triggers {
-    cron('@daily')
+    // Only rebuild the main branch daily
+    cron(env.BRANCH_NAME == 'main' ? '@daily' : '')
   }
 
   stages {
     stage('Build and Test Linux Images') {
       when {
-        expression { !infra.isTrusted() }
+        expression { infra.isInfra() }
       }
-
       matrix {
         agent {
           kubernetes {
