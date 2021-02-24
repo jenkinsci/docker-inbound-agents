@@ -116,7 +116,9 @@ spec:
               branch 'main'
             }
             steps {
-              sh "make deploy"
+              dir(IMAGE_DIR) {
+                sh "make -C ${WORKSPACE}/ deploy"
+              }
             } // steps
           }
         }
