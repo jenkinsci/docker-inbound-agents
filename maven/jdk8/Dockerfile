@@ -2,9 +2,12 @@ FROM jenkins/inbound-agent:alpine as jnlp
 
 FROM maven:3.6.3-jdk-8-slim
 
+## Ignore apt package pinning as we always want the latest package here
+# hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install -y \
-        git bash \
+    apt-get install -y --no-install-recommends \
+        bash \
+        git \
         libfontconfig1 \
         libfreetype6 && \
     apt-get clean && \

@@ -2,8 +2,13 @@ FROM jenkins/inbound-agent:alpine as jnlp
 
 FROM ruby:2-stretch
 
+## Ignore apt package pinning as we always want the latest package here
+# hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -qy git bash openjdk-8-jre-headless && \
+    apt-get install --no-install-recommends -qy \
+        bash \
+        git \
+        openjdk-8-jre-headless && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

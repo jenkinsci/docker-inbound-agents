@@ -1,7 +1,9 @@
 FROM jenkins/inbound-agent:alpine as jnlp
 
-from mcr.microsoft.com/powershell:7.1.0-alpine-3.10
+FROM mcr.microsoft.com/powershell:7.1.0-alpine-3.10
 
+## Ignore apk package pinning as we always want the latest package here
+# hadolint ignore=DL3018
 RUN apk --no-cache add bash git openjdk11-jre
 
 COPY --from=jnlp /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent

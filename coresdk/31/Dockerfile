@@ -2,8 +2,9 @@ FROM jenkins/inbound-agent:alpine as jnlp
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
 
-RUN apk add --no-cache bash git openjdk8-jre openssh && \
-    rm -rf /var/lib/apt/lists/* 
+## Ignore apk package pinning as we always want the latest package here
+# hadolint ignore=DL3018
+RUN apk add --no-cache bash git openjdk8-jre openssh
 
 COPY --from=jnlp /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent
 COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
