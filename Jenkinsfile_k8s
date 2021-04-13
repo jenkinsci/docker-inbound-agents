@@ -1,133 +1,89 @@
-pipeline {
-  agent none
+def principalBranch = 'main'
 
-  options {
-    timeout(time: 1, unit: 'HOURS')
-    buildDiscarder logRotator(numToKeepStr: '10')
-  }
-
-  triggers {
-    // Only rebuild the main branch daily
-    cron(env.BRANCH_NAME == 'main' ? '@daily' : '')
-  }
-
-  stages {
-    stage('Build and Test Linux Images') {
-      when {
-        expression { infra.isInfra() }
-      }
-      matrix {
-        agent {
-          kubernetes {
-            inheritFrom 'jnlp-linux'
-            defaultContainer 'builder'
-            yaml '''
-apiVersion: "v1"
-kind: "Pod"
-metadata:
-  labels:
-    jenkins: "agent"
-    job/kind: "docker-image-build"
-  annotations:
-    container.apparmor.security.beta.kubernetes.io/builder: unconfined
-    container.seccomp.security.alpha.kubernetes.io/builder: unconfined
-spec:
-  restartPolicy: "Never"
-  containers:
-    - name: builder
-      image: jenkinsciinfra/builder:latest
-      command:
-      - cat
-      tty: true
-      resources:
-      limits:
-        memory: "512Mi"
-        cpu: "500m"
-      requests:
-        memory: "512Mi"
-        cpu: "500m"
-            '''
-          }
-        }
-
-        axes {
-          axis {
-            name 'IMAGE_DIR'
-            values 'terraform', 'docker', 'python/python3', 'python/python2', 'golang', 'maven/jdk11', 'maven/jdk8', 'powershell', 'coreruntime/31', 'coreruntime/30', 'coreruntime/22', 'coresdk/31', 'node', 'ruby'
-          }
-        }
-        stages {
-          stage('Prepare') {
-            environment {
-              DOCKER_REGISTRY = credentials('jenkins-dockerhub')
-            }
-            steps {
-              sh 'echo "${DOCKER_REGISTRY_PSW}" | img login -u "${DOCKER_REGISTRY_USR}" --password-stdin'
-            }
-          }
-          stage("Lint") {
-            steps {
-              dir(IMAGE_DIR) {
-                sh 'make -C ${WORKSPACE}/ lint'
-              }
-            }
-            post {
-              always {
-                recordIssues(
-                  enabledForFailure: true,
-                  aggregatingResults: false,
-                  tool: hadoLint(id: "hadolint-${IMAGE_DIR.replaceAll('/','-')}", pattern: "${IMAGE_DIR}/hadolint.json")
-                )
-              }
-            }
-          }
-          stage("Build") {
-            steps {
-              dir(IMAGE_DIR) {
-                sh 'make -C ${WORKSPACE}/ build'
-              }
-            }
-          }
-          stage("Common Tests") {
-            when {
-              expression { fileExists "${WORKSPACE}/cst.yml" }
-            }
-            environment {
-              TEST_HARNESS = "${WORKSPACE}/cst.yml"
-            }
-            steps {
-              dir(IMAGE_DIR) {
-                sh 'make -C ${WORKSPACE}/ test'
-              }
-            }
-          }
-          stage("Specific Tests") {
-             when {
-              expression { fileExists "${IMAGE_DIR}/cst.yml" }
-            }
-            steps {
-              dir(IMAGE_DIR) {
-                sh 'make -C ${WORKSPACE}/ test'
-              }
-            }
-          }
-          stage("Deploy") {
-            when {
-              branch 'main'
-            }
-            steps {
-              dir(IMAGE_DIR) {
-                sh "make -C ${WORKSPACE}/ deploy"
-              }
-            } // steps
-          }
-        }
-        post {
-          cleanup {
-            sh 'img logout'
-          }
-        }
-      }
-    }
-  } // stages
-}
+parallel(
+  failFast: false,
+  'coreruntime-2.2': {
+     buildDockerAndPublishImage('inbound-agent-coreruntime:2.2', [
+      mainBranch: principalBranch,
+      dockerfile: 'coreruntime/22/Dockerfile',
+    ])
+  },
+  'coreruntime-3.0': {
+     buildDockerAndPublishImage('inbound-agent-coreruntime:3.0', [
+      mainBranch: principalBranch,
+      dockerfile: 'coreruntime/30/Dockerfile',
+    ])
+  },
+  'coreruntime-3.1': {
+     buildDockerAndPublishImage('inbound-agent-coreruntime:3.1', [
+      mainBranch: principalBranch,
+      dockerfile: 'coreruntime/31/Dockerfile',
+    ])
+  },
+  'coresdk-3.1': {
+     buildDockerAndPublishImage('inbound-agent-coresdk:3.1', [
+      mainBranch: principalBranch,
+      dockerfile: 'coresdk/31/Dockerfile',
+    ])
+  },
+  'docker': {
+     buildDockerAndPublishImage('inbound-agent-docker', [
+      mainBranch: principalBranch,
+      dockerfile: 'docker/Dockerfile',
+    ])
+  },
+  'golang': {
+     buildDockerAndPublishImage('inbound-agent-golang', [
+      mainBranch: principalBranch,
+      dockerfile: 'golang/Dockerfile',
+    ])
+  },
+  'maven-jdk8': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk8', [
+      mainBranch: principalBranch,
+      dockerfile: 'maven/jdk8/Dockerfile',
+    ])
+  },
+  'maven-jdk11': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk11', [
+      mainBranch: principalBranch,
+      dockerfile: 'maven/jdk11/Dockerfile',
+    ])
+  },
+  'node': {
+     buildDockerAndPublishImage('inbound-agent-node', [
+      mainBranch: principalBranch,
+      dockerfile: 'node/Dockerfile',
+    ])
+  },
+  'powershell': {
+     buildDockerAndPublishImage('inbound-agent-powershell', [
+      mainBranch: principalBranch,
+      dockerfile: 'powershell/Dockerfile',
+    ])
+  },
+  'python2': {
+     buildDockerAndPublishImage('inbound-agent-python2', [
+      mainBranch: principalBranch,
+      dockerfile: 'python/python2/Dockerfile',
+    ])
+  },
+  'python3': {
+     buildDockerAndPublishImage('inbound-agent-python3', [
+      mainBranch: principalBranch,
+      dockerfile: 'python/python3/Dockerfile',
+    ])
+  },
+  'ruby': {
+     buildDockerAndPublishImage('inbound-agent-ruby', [
+      mainBranch: principalBranch,
+      dockerfile: 'ruby/Dockerfile',
+    ])
+  },
+  'terraform': {
+     buildDockerAndPublishImage('inbound-agent-terraform', [
+      mainBranch: principalBranch,
+      dockerfile: 'terraform/Dockerfile',
+    ])
+  },
+)
