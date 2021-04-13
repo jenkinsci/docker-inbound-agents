@@ -1,6 +1,3 @@
-
-@Library('pipeline-library@pull/196/head') _
-
 def principalBranch = 'main'
 
 parallel(
