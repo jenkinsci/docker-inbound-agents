@@ -34,7 +34,7 @@ clean:
 	rm -f *.tar
 
 push: build
-	docker load $(IMAGE_TAR)
+	docker load --input $(IMAGE_TAR)
 	docker push $(NAME)
 
 .PHONY: lint build test push clean
