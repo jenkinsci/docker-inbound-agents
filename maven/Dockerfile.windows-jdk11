@@ -1,5 +1,5 @@
 # escape=`
-FROM csanchez/maven:3-jdk-11-windowsservercore-1809 as maven
+FROM csanchez/maven:3-openjdk-11-windowsservercore-1809 as maven
 
 FROM jenkins/inbound-agent:jdk11-windowsservercore-1809
 
