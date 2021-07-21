@@ -1,6 +1,6 @@
 # escape=`
 FROM mcr.microsoft.com/windows/servercore:1809 as core
-FROM csanchez/maven:3-jdk-8-nanoserver-1809 as maven
+FROM csanchez/maven:3-openjdk-8-nanoserver-1809 as maven
 
 FROM jenkins/inbound-agent:jdk8-nanoserver-1809
 
