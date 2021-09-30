@@ -7,10 +7,14 @@ FROM ruby:2-stretch
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -qy \
         bash \
-        git \
-        openjdk-8-jre-headless && \
+        git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install JDK from the official agent image
+ENV JAVA_HOME=/opt/jdk11
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
+COPY --from=jnlp /opt/java/openjdk "${JAVA_HOME}"
 
 COPY --from=jnlp /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-agent
 COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar

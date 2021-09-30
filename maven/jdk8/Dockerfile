@@ -1,6 +1,6 @@
 FROM jenkins/inbound-agent:alpine as jnlp
 
-FROM maven:3.8-jdk-8-slim
+FROM maven:3.8.2-eclipse-temurin-8
 
 ## Ignore apt package pinning as we always want the latest package here
 # hadolint ignore=DL3008
