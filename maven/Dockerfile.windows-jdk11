@@ -12,4 +12,3 @@ ENV MAVEN_HOME C:/ProgramData/Maven
 ENV PATH "${PATH};${MAVEN_HOME}\bin"
 
 ENTRYPOINT ["powershell.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
-

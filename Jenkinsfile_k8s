@@ -2,42 +2,6 @@ def principalBranch = 'main'
 
 parallel(
   failFast: false,
-  'coreruntime-2.2': {
-     buildDockerAndPublishImage('inbound-agent-coreruntime:2.2', [
-      mainBranch: principalBranch,
-      dockerfile: 'coreruntime/22/Dockerfile',
-    ])
-  },
-  'coreruntime-3.0': {
-     buildDockerAndPublishImage('inbound-agent-coreruntime:3.0', [
-      mainBranch: principalBranch,
-      dockerfile: 'coreruntime/30/Dockerfile',
-    ])
-  },
-  'coreruntime-3.1': {
-     buildDockerAndPublishImage('inbound-agent-coreruntime:3.1', [
-      mainBranch: principalBranch,
-      dockerfile: 'coreruntime/31/Dockerfile',
-    ])
-  },
-  'coresdk-3.1': {
-     buildDockerAndPublishImage('inbound-agent-coresdk:3.1', [
-      mainBranch: principalBranch,
-      dockerfile: 'coresdk/31/Dockerfile',
-    ])
-  },
-  'docker': {
-     buildDockerAndPublishImage('inbound-agent-docker', [
-      mainBranch: principalBranch,
-      dockerfile: 'docker/Dockerfile',
-    ])
-  },
-  'golang': {
-     buildDockerAndPublishImage('inbound-agent-golang', [
-      mainBranch: principalBranch,
-      dockerfile: 'golang/Dockerfile',
-    ])
-  },
   'maven-jdk8': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk8', [
       mainBranch: principalBranch,
@@ -56,34 +20,10 @@ parallel(
       dockerfile: 'node/Dockerfile',
     ])
   },
-  'powershell': {
-     buildDockerAndPublishImage('inbound-agent-powershell', [
-      mainBranch: principalBranch,
-      dockerfile: 'powershell/Dockerfile',
-    ])
-  },
-  'python2': {
-     buildDockerAndPublishImage('inbound-agent-python2', [
-      mainBranch: principalBranch,
-      dockerfile: 'python/python2/Dockerfile',
-    ])
-  },
-  'python3': {
-     buildDockerAndPublishImage('inbound-agent-python3', [
-      mainBranch: principalBranch,
-      dockerfile: 'python/python3/Dockerfile',
-    ])
-  },
   'ruby': {
      buildDockerAndPublishImage('inbound-agent-ruby', [
       mainBranch: principalBranch,
       dockerfile: 'ruby/Dockerfile',
-    ])
-  },
-  'terraform': {
-     buildDockerAndPublishImage('inbound-agent-terraform', [
-      mainBranch: principalBranch,
-      dockerfile: 'terraform/Dockerfile',
     ])
   },
 )
