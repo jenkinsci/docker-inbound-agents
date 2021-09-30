@@ -1,7 +1,7 @@
 # escape=`
 FROM csanchez/maven:3-jdk-11-windowsservercore-1809 as maven
 
-FROM jenkins/inbound-agent:jdk11-windowsservercore-1809
+FROM jenkins/inbound-agent:jdk11-windowsservercore-ltsc2019
 
 COPY --from=maven C:/ProgramData/Maven C:/ProgramData/Maven
 
