@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:alpine-jdk11 as jnlp
 
 FROM node:alpine
 
@@ -7,7 +7,7 @@ FROM node:alpine
 RUN apk --no-cache add bash git
 
 # Install JDK from the official agent image
-ENV JAVA_HOME=/opt/jdk11
+ENV JAVA_HOME=/opt/jdk-11
 ENV PATH "${JAVA_HOME}/bin:${PATH}"
 COPY --from=jnlp /opt/java/openjdk "${JAVA_HOME}"
 

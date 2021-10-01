@@ -1,4 +1,5 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+# Use Debian base
+FROM jenkins/inbound-agent:jdk8 as jnlp
 
 FROM maven:3.8.2-eclipse-temurin-8
 
