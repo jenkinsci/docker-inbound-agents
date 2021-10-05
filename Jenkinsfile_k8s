@@ -14,6 +14,12 @@ parallel(
       dockerfile: 'maven/jdk11/Dockerfile',
     ])
   },
+  'maven-jdk17': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk17', [
+      mainBranch: principalBranch,
+      dockerfile: 'maven/jdk17/Dockerfile',
+    ])
+  },
   'node': {
      buildDockerAndPublishImage('inbound-agent-node', [
       mainBranch: principalBranch,
