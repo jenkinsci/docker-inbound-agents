@@ -20,7 +20,7 @@ pipeline {
             parallel {
                 stage('Windows') {
                     agent {
-                        label "windock"
+                        label "docker-windows"
                     }
                     steps {
                         bat "powershell -File ./make.ps1 -Target build"
@@ -48,7 +48,7 @@ pipeline {
             parallel {
                 stage('Windows') {
                     agent {
-                        label "windock"
+                        label "docker-windows"
                     }
                     steps {
                         withCredentials([[$class: 'ZipFileBinding',
