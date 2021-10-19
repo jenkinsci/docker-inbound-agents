@@ -15,7 +15,6 @@ fileExistenceTests:
   - name: "Default user's home"
     path: '/home/jenkins'
     shouldExist: true
-    permissions: 'drwxr-x---'
   - name: 'Bash'
     path: '/bin/bash'
     shouldExist: true
