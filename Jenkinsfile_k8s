@@ -32,4 +32,12 @@ parallel(
       dockerfile: 'ruby/Dockerfile',
     ])
   },
+  'updatecli': {
+    withCredentials([string(credentialsId: 'updatecli-github-token', variable: 'UPDATECLI_GITHUB_TOKEN')]) {
+      updatecli(action: 'diff')
+      if (env.BRANCH_NAME == 'main') {
+        updatecli(action: 'apply', cronTriggerExpression: '@weekly')
+      }
+    }
+  },
 )
