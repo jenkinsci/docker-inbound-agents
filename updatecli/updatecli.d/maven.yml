@@ -47,7 +47,7 @@ targets:
     transformers:
       - addSuffix: '-eclipse-temurin-11'
     spec:
-      file: maven/jdk8/Dockerfile
+      file: maven/jdk11/Dockerfile
       instruction:
         keyword: "FROM"
         matcher: "maven"
@@ -66,7 +66,7 @@ targets:
     transformers:
       - addSuffix: '-eclipse-temurin-17'
     spec:
-      file: maven/jdk8/Dockerfile
+      file: maven/jdk17/Dockerfile
       instruction:
         keyword: "FROM"
         matcher: "maven"
