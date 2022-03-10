@@ -33,11 +33,9 @@ parallel(
     ])
   },
   'updatecli': {
-    withCredentials([string(credentialsId: 'updatecli-github-token', variable: 'UPDATECLI_GITHUB_TOKEN')]) {
-      updatecli(action: 'diff')
-      if (env.BRANCH_IS_PRIMARY) {
-        updatecli(action: 'apply', cronTriggerExpression: '@weekly')
-      }
+    updatecli(action: 'diff')
+    if (env.BRANCH_IS_PRIMARY) {
+      updatecli(action: 'apply', cronTriggerExpression: '@weekly')
     }
   },
 )
