@@ -1,5 +1,17 @@
----
 title: "Bump Maven version"
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
 sources:
   mavenVersion:
     kind: githubRelease
@@ -20,62 +32,65 @@ conditions:
     disablesourceinput: true
     spec:
       command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion` }}/binaries/apache-maven-{{ source `mavenVersion` }}-bin.tar.gz
+  checkMavenJdk8DockerImage:
+    name: Ensure that the docker image "maven:<found_version>eclipse-temurin-8" is published
+    kind: dockerImage
+    transformers:
+      - addSuffix: "-eclipse-temurin-8"
+    spec:
+      image: "maven"
+      ## tag come from the input source
+      architecture: amd64
+  checkMavenJdk11DockerImage:
+    name: Ensure that the docker image "maven:<found_version>eclipse-temurin-11" is published
+    kind: dockerImage
+    transformers:
+      - addSuffix: "-eclipse-temurin-11"
+    spec:
+      image: "maven"
+      ## tag come from the input source
+      architecture: amd64
+  checkMavenJdk17DockerImage:
+    name: Ensure that the docker image "maven:<found_version>eclipse-temurin-17" is published
+    kind: dockerImage
+    transformers:
+      - addSuffix: "-eclipse-temurin-17"
+    spec:
+      image: "maven"
+      ## tag come from the input source
+      architecture: amd64
 
 targets:
   updateMavenJdk8Version:
     name: Update the Maven version for the JDK8 container image
     kind: dockerfile
     transformers:
-      - addSuffix: '-eclipse-temurin-8'
+      - addSuffix: "-eclipse-temurin-8"
     spec:
       file: maven/jdk8/Dockerfile
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmId: default
   updateMavenJdk11Version:
     name: Update the Maven version for the JDK8 container image
     kind: dockerfile
     transformers:
-      - addSuffix: '-eclipse-temurin-11'
+      - addSuffix: "-eclipse-temurin-11"
     spec:
       file: maven/jdk11/Dockerfile
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmId: default
   updateMavenJdk17Version:
     name: Update the Maven version for the JDK8 container image
     kind: dockerfile
     transformers:
-      - addSuffix: '-eclipse-temurin-17'
+      - addSuffix: "-eclipse-temurin-17"
     spec:
       file: maven/jdk17/Dockerfile
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmId: default
