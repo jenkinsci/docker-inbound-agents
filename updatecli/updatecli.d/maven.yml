@@ -71,7 +71,7 @@ targets:
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scmID: default
+    scmid: default
   updateMavenJdk11Version:
     name: Update the Maven version for the JDK8 container image
     kind: dockerfile
@@ -82,7 +82,7 @@ targets:
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scmID: default
+    scmid: default
   updateMavenJdk17Version:
     name: Update the Maven version for the JDK8 container image
     kind: dockerfile
@@ -93,4 +93,4 @@ targets:
       instruction:
         keyword: "FROM"
         matcher: "maven"
-    scmID: default
+    scmid: default
