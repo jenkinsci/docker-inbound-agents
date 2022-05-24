@@ -28,17 +28,17 @@ parallel(
       useContainer: false,
     ])
   },
-  'maven-jdk11-windowsservercore-1809': {
-     buildDockerAndPublishImage('inbound-agent-maven:jdk11-windowsservercore-1809', [
-      dockerfile: 'maven/jdk11/Dockerfile.windowsservercore-1809',
-      agentLabels: 'windows',
-      platform: 'windows/amd64',
-      useContainer: false,
-    ])
-  },
   'maven-jdk17': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk17', [
       dockerfile: 'maven/jdk17/Dockerfile',
+      useContainer: false,
+    ])
+  },
+  'jdk11-windowsservercore-1809': {
+     buildDockerAndPublishImage('inbound-agent:jdk11-windowsservercore-1809', [
+      dockerfile: 'base/jdk11/Dockerfile.windowsservercore-1809',
+      agentLabels: 'windows',
+      platform: 'windows/amd64',
       useContainer: false,
     ])
   },
