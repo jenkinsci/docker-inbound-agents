@@ -1,0 +1,2 @@
+# Use https://github.com/jenkinsci/jnlp-agents as base for now
+FROM jenkins/jnlp-agent-maven:windows-nanoserver-jdk11 AS jnlp

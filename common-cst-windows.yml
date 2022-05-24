@@ -1,0 +1,25 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  entrypoint: ["pwsh.exe", "-f", "C:/ProgramData/Jenkins/jenkins-agent.ps1"]
+
+fileExistenceTests:
+
+  - name: 'Jenkins agent'
+    path: 'C:/ProgramData/Jenkins/jenkins-agent.ps1'
+    shouldExist: true
+    isExecutableBy: 'any'
+  - name: 'Jenkins agent jar file'
+    path: 'C:/ProgramData/Jenkins/agent.jar'
+    shouldExist: true
+  - name: "Default user's home"
+    path: 'C:/users/jenkins/'
+    shouldExist: true
+  - name: 'cmd'
+    path: 'C:/Windows/System32/cmd.exe'
+    shouldExist: true
+    isExecutableBy: 'any'
+  - name: 'Git'
+    path: 'C:/mingit/mingw64/bin/git.exe'
+    shouldExist: true
+    isExecutableBy: 'any'

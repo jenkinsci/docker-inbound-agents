@@ -1,35 +1,57 @@
-def principalBranch = 'main'
-
 parallel(
   failFast: false,
   'maven-jdk8': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk8', [
-      mainBranch: principalBranch,
       dockerfile: 'maven/jdk8/Dockerfile',
+      useContainer: false,
+    ])
+  },
+  'maven-jdk8-nanoserver': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk8-nanoserver', [
+      dockerfile: 'maven/jdk8/Dockerfile.nanoserver',
+      agentLabels: 'windows',
+      platform: 'windows/amd64',
+      useContainer: false,
     ])
   },
   'maven-jdk11': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk11', [
-      mainBranch: principalBranch,
       dockerfile: 'maven/jdk11/Dockerfile',
+      useContainer: false,
+    ])
+  },
+  'maven-jdk11-nanoserver': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk11-nanoserver', [
+      dockerfile: 'maven/jdk11/Dockerfile.nanoserver',
+      agentLabels: 'windows',
+      platform: 'windows/amd64',
+      useContainer: false,
+    ])
+  },
+  'maven-jdk11-windowsservercore-1809': {
+     buildDockerAndPublishImage('inbound-agent-maven:jdk11-windowsservercore-1809', [
+      dockerfile: 'maven/jdk11/Dockerfile.windowsservercore-1809',
+      agentLabels: 'windows',
+      platform: 'windows/amd64',
+      useContainer: false,
     ])
   },
   'maven-jdk17': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk17', [
-      mainBranch: principalBranch,
       dockerfile: 'maven/jdk17/Dockerfile',
+      useContainer: false,
     ])
   },
   'node': {
      buildDockerAndPublishImage('inbound-agent-node', [
-      mainBranch: principalBranch,
       dockerfile: 'node/Dockerfile',
+      useContainer: false,
     ])
   },
   'ruby': {
      buildDockerAndPublishImage('inbound-agent-ruby', [
-      mainBranch: principalBranch,
       dockerfile: 'ruby/Dockerfile',
+      useContainer: false,
     ])
   },
   'updatecli': {
