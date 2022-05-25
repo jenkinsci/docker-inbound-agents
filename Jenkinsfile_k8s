@@ -40,6 +40,7 @@ parallel(
       agentLabels: 'windows',
       platform: 'windows/amd64',
       useContainer: false,
+      automaticSemanticVersioning: true,
     ])
   },
   'node': {
