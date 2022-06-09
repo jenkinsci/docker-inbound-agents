@@ -3,7 +3,8 @@ parallel(
   'maven-jdk8': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk8', [
       dockerfile: 'maven/jdk8/Dockerfile',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'maven-jdk8-nanoserver': {
@@ -11,13 +12,15 @@ parallel(
       dockerfile: 'maven/jdk8/Dockerfile.nanoserver',
       agentLabels: 'windows',
       platform: 'windows/amd64',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'maven-jdk11': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk11', [
       dockerfile: 'maven/jdk11/Dockerfile',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'maven-jdk11-nanoserver': {
@@ -25,13 +28,15 @@ parallel(
       dockerfile: 'maven/jdk11/Dockerfile.nanoserver',
       agentLabels: 'windows',
       platform: 'windows/amd64',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'maven-jdk17': {
      buildDockerAndPublishImage('inbound-agent-maven:jdk17', [
       dockerfile: 'maven/jdk17/Dockerfile',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'jdk11-windowsservercore-1809': {
@@ -39,20 +44,22 @@ parallel(
       dockerfile: 'base/jdk11/Dockerfile.windowsservercore-1809',
       agentLabels: 'windows',
       platform: 'windows/amd64',
-      useContainer: false,
       automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'node': {
      buildDockerAndPublishImage('inbound-agent-node', [
       dockerfile: 'node/Dockerfile',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'ruby': {
      buildDockerAndPublishImage('inbound-agent-ruby', [
       dockerfile: 'ruby/Dockerfile',
-      useContainer: false,
+      automaticSemanticVersioning: true,
+      includeImageNameInTag: true,
     ])
   },
   'updatecli': {
