@@ -5,7 +5,7 @@ to run a Jenkins Inbound (formerly known as "JNLP") agents with a Docker image.
 
 This makes it easy to use upstream images as Kubernetes pod templates,
 Azure Container Instances, AWS ECS/Fargate, or within other Jenkins agent
-systems which rely on the "Inbound" protocol.
+systems relying on the "Inbound" protocol.
 
 == Contribute
 
