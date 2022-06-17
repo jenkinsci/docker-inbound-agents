@@ -1,7 +1,7 @@
 # Use Debian base
 FROM jenkins/inbound-agent:jdk11 as jnlp
 
-FROM maven:3.8.4-eclipse-temurin-11
+FROM maven:3.8.6-eclipse-temurin-11
 
 ## Ignore apt package pinning as we always want the latest package here
 # hadolint ignore=DL3008
