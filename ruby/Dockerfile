@@ -8,7 +8,8 @@ FROM ruby:2.6
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -qy \
         bash \
-        git && \
+        git \ 
+        yq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
