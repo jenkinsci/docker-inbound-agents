@@ -1,17 +1,19 @@
 # Use debian base
 FROM jenkins/inbound-agent:jdk11 as jnlp
-
-FROM ruby:2.6
+FROM mikefarah/yq:4 as yq
+FROM ruby:2.6-slim
 
 ## Ignore apt package pinning as we always want the latest package here
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -qy \
-        bash \
-        git \ 
-        yq && \
+    bash \
+    git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+## Install yq v4.x
+COPY --from=yq /usr/bin/yq /usr/bin/yq
 
 # Install JDK from the official agent image
 ENV JAVA_HOME=/opt/jdk-11
