@@ -1,7 +1,7 @@
 # Use debian base
 FROM jenkins/inbound-agent:jdk11 as jnlp
 
-FROM ruby:2-stretch
+FROM ruby:2.6
 
 ## Ignore apt package pinning as we always want the latest package here
 # hadolint ignore=DL3008
