@@ -5,12 +5,14 @@ FROM ruby:2.6-slim
 
 ## Ignore apt package pinning as we always want the latest package here
 # hadolint ignore=DL3008
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -qy \
+RUN apt-get update -qq \
+    && apt-get install --no-install-recommends --yes \
     bash \
-    git && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    build-essential \
+    git \
+    make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ## Install yq v4.x
 COPY --from=yq /usr/bin/yq /usr/bin/yq
