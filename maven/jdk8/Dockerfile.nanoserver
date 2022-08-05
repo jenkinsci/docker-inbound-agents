@@ -1,2 +1,8 @@
+ARG JAVA_VERSION="11.0.16_8"
+FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
+
 # Use https://github.com/jenkinsci/jnlp-agents as base for now
 FROM jenkins/jnlp-agent-maven:windows-nanoserver AS jnlp
+
+# Retrieve JDK11 for running jenkins agent process but do not use it as default
+COPY --from=core C:/openjdk-11 C:/openjdk-11
