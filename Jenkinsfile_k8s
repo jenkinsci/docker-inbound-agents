@@ -41,11 +41,6 @@ parallel(
       dockerfile: 'node/Dockerfile',
     ])
   },
-  'ruby': {
-     buildDockerAndPublishImage('inbound-agent-ruby', [
-      dockerfile: 'ruby/Dockerfile',
-    ])
-  },
   'updatecli': {
     updatecli(action: 'diff')
     if (env.BRANCH_IS_PRIMARY) {
