@@ -1,9 +1,13 @@
 # escape=`
-FROM mcr.microsoft.com/windows/servercore:1809 as core
+ARG JAVA_VERSION="11.0.16_8"
+FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
 FROM jenkins/inbound-agent:jdk8-nanoserver-1809
 
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Retrieve JDK11 for running jenkins agent process but do not use it as default
+COPY --from=core C:/openjdk-11 C:/tools/jdk-11
 
 # https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
 COPY --from=core C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
