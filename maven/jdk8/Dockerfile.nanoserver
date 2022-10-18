@@ -1,8 +1,18 @@
-ARG JAVA_VERSION="11.0.16_8"
-FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
+# escape=`
+FROM mcr.microsoft.com/windows/servercore:1809 as core
+FROM jenkins/inbound-agent:jdk8-nanoserver-1809
 
-# Use https://github.com/jenkinsci/jnlp-agents as base for now
-FROM jenkins/jnlp-agent-maven:windows-nanoserver AS jnlp
+# ProgressPreference => Disable Progress bar for faster downloads
+SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Retrieve JDK11 for running jenkins agent process but do not use it as default
-COPY --from=core C:/openjdk-11 C:/tools/jdk-11
+# https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
+COPY --from=core C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
+
+ARG MAVEN_VERSION=3.8.6
+RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:MAVEN_VERSION}/binaries/apache-maven-${env:MAVEN_VERSION}-bin.zip" -OutFile ${env:TEMP}/apache-maven.zip ; `
+  Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:\tools ; `
+  Remove-Item ${env:TEMP}/apache-maven.zip ;
+
+ENV JAVA_HOME ${JAVA_HOME}
+ENV MAVEN_HOME "C:\tools\apache-maven-${MAVEN_VERSION}"
+ENV PATH="${WindowsPATH};${ProgramFiles}\PowerShell;${JAVA_HOME}\bin;${MAVEN_HOME}\bin"
