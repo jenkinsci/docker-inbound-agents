@@ -17,6 +17,5 @@ RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:
   Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:\tools ; `
   Remove-Item ${env:TEMP}/apache-maven.zip ;
 
-ENV JAVA_HOME ${JAVA_HOME}
 ENV MAVEN_HOME "C:\tools\apache-maven-${MAVEN_VERSION}"
-ENV PATH="${WindowsPATH};${ProgramFiles}\PowerShell;${JAVA_HOME}\bin;${MAVEN_HOME}\bin"
+ENV PATH="${PATH};${MAVEN_HOME}\bin"
