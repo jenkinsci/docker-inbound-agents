@@ -1,5 +1,5 @@
 # escape=`
-ARG JAVA_VERSION="11.0.16.1_1"
+ARG JAVA_VERSION=11.0.16.1_1
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
 FROM jenkins/inbound-agent:jdk8-nanoserver-1809
 
