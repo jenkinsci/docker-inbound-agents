@@ -3,21 +3,21 @@ parallel(
   'maven-jdk8-nanoserver': {
     buildDockerAndPublishImage('inbound-agent-maven:jdk8-nanoserver', [
       dockerfile: 'maven/jdk8/Dockerfile.nanoserver',
-      agentLabels: 'windows',
+      agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
     ])
   },
   'maven-jdk11-nanoserver': {
     buildDockerAndPublishImage('inbound-agent-maven:jdk11-nanoserver', [
       dockerfile: 'maven/jdk11/Dockerfile.nanoserver',
-      agentLabels: 'windows',
+      agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
     ])
   },
   'jdk11-windowsservercore-1809': {
     buildDockerAndPublishImage('inbound-agent:jdk11-windowsservercore-1809', [
       dockerfile: 'base/jdk11/Dockerfile.windowsservercore-1809',
-      agentLabels: 'windows',
+      agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
     ])
   },
