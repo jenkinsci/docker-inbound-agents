@@ -2,7 +2,7 @@
 # this JAVA version is the one used for the execution of the agent process and must match the controller version
 ARG JAVA_VERSION=11.0.17_8
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
-FROM jenkins/inbound-agent:jdk8-nanoserver-1809
+FROM jenkins/inbound-agent:jdk17-nanoserver-1809
 
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]

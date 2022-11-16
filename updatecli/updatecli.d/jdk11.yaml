@@ -44,12 +44,24 @@ conditions:
       # tag comes from the transformed source
 
 targets:
-  setJDK11Version:
+  setJDK11VersionForJDK8:
     sourceid: getLatestJDK11Version
     name: change arg in Dockerfile
     kind: dockerfile
     spec:
+      # the path to jdk8 version as we want to keepup the jdk11 uptodate to launch the agent but not to use it as default
       file: maven/jdk8/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA_VERSION"
+    scmid: default
+  setJDK11VersionForJDK17:
+    sourceid: getLatestJDK11Version
+    name: change arg in Dockerfile
+    kind: dockerfile
+    spec:
+      # the path to jdk17 version as we want to keepup the jdk11 uptodate to launch the agent but not to use it as default
+      file: maven/jdk17/Dockerfile.nanoserver
       instruction:
         keyword: "ARG"
         matcher: "JAVA_VERSION"

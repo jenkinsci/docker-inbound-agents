@@ -45,10 +45,19 @@ targets:
         matcher: "MAVEN_VERSION"
     scmid: default
   updateMavenJdk11NanoserverVersion:
-    name: Update the Maven version for the JDK8 container image
+    name: Update the Maven version for the JDK11 container image
     kind: dockerfile
     spec:
       file: maven/jdk11/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "MAVEN_VERSION"
+    scmid: default
+  updateMavenJdk17NanoserverVersion:
+    name: Update the Maven version for the JDK17 container image
+    kind: dockerfile
+    spec:
+      file: maven/jdk17/Dockerfile.nanoserver
       instruction:
         keyword: "ARG"
         matcher: "MAVEN_VERSION"
