@@ -21,6 +21,14 @@ parallel(
       platform: 'windows/amd64',
     ])
   },
+  'maven-jdk19-nanoserver': {
+    buildDockerAndPublishImage('inbound-agent-maven:jdk19-nanoserver', [
+      dockerfile: 'maven/jdk19/Dockerfile.nanoserver',
+      agentLabels: 'windows-amd64-docker',
+      platform: 'windows/amd64',
+      imageDir: 'maven/jdk19/',
+    ])
+  },
   'jdk11-windowsservercore-1809': {
     buildDockerAndPublishImage('inbound-agent:jdk11-windowsservercore-1809', [
       dockerfile: 'base/jdk11/Dockerfile.windowsservercore-1809',
