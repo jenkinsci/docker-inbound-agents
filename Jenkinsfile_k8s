@@ -5,6 +5,7 @@ parallel(
       dockerfile: 'maven/jdk8/Dockerfile.nanoserver',
       agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
+      imageDir: 'maven/jdk8',
     ])
   },
   'maven-jdk11-nanoserver': {
@@ -19,6 +20,7 @@ parallel(
       dockerfile: 'maven/jdk17/Dockerfile.nanoserver',
       agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
+      imageDir: 'maven/jdk17',
     ])
   },
   'maven-jdk19-nanoserver': {
@@ -26,7 +28,7 @@ parallel(
       dockerfile: 'maven/jdk19/Dockerfile.nanoserver',
       agentLabels: 'windows-amd64-docker',
       platform: 'windows/amd64',
-      imageDir: 'maven/jdk19/',
+      imageDir: 'maven/jdk19',
     ])
   },
   'jdk11-windowsservercore-1809': {

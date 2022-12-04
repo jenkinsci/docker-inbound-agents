@@ -1,6 +1,6 @@
 # escape=`
 FROM mcr.microsoft.com/windows/servercore:1809 as core
-FROM jenkins/inbound-agent:jdk11-nanoserver-1809
+FROM jenkins/inbound-agent:3077.vd69cf116da_6f-3-jdk11-nanoserver-1809
 
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]

@@ -1,14 +1,16 @@
 # escape=`
-# this JAVA version is the one used for the execution of the agent process and must match the controller version
-ARG JAVA_VERSION=11.0.17_8
+ARG JAVA_VERSION=17.0.5_8
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
-FROM jenkins/inbound-agent:jdk17-nanoserver-1809
+# Use inbound-agent's JDK11 only for running jenkins agent, not as default java
+FROM jenkins/inbound-agent:3077.vd69cf116da_6f-3-jdk11-nanoserver-1809
 
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Retrieve JDK11 for running jenkins agent process but do not use it as default
-COPY --from=core C:/openjdk-11 C:/tools/jdk-11
+# Adding jdk17 from eclipse-temurin
+# Use ENV and not ARG : https://docs.docker.com/engine/reference/builder/#using-arg-variables
+ENV JAVA_HOME=C:/tools/jdk-17
+COPY --from=core C:/openjdk-17 "${JAVA_HOME}"
 
 # https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
 COPY --from=core C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
@@ -19,4 +21,4 @@ RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:
   Remove-Item ${env:TEMP}/apache-maven.zip ;
 
 ENV MAVEN_HOME "C:\tools\apache-maven-${MAVEN_VERSION}"
-ENV PATH="${PATH};${MAVEN_HOME}\bin"
+ENV PATH="${JAVA_HOME}\bin;${PATH};${MAVEN_HOME}\bin"

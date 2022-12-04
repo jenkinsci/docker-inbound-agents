@@ -62,6 +62,15 @@ targets:
         keyword: "ARG"
         matcher: "MAVEN_VERSION"
     scmid: default
+  updateMavenJdk19NanoserverVersion:
+    name: Update the Maven version for the JDK19 container image
+    kind: dockerfile
+    spec:
+      file: maven/jdk19/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "MAVEN_VERSION"
+    scmid: default
 
 pullrequests:
   default:
