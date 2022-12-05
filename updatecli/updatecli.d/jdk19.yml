@@ -1,0 +1,58 @@
+---
+name: Bump JDK19 version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: githubrelease
+    name: Get the latest Adoptium JDK19 version
+    spec:
+      owner: "adoptium"
+      repository: "temurin19-binaries"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: regex
+        # jdk-19.0.2+8(https://github.com/adoptium/temurin19-binaries/releases/tag/jdk-19.0.2%2B8) is OK
+        # jdk-19.0.4.1+1(https://github.com/adoptium/temurin19-binaries/releases/tag/jdk-19.0.4.1%2B1) is OK
+        pattern: "^jdk-19.(\\d*).(\\d*).(\\d*)(.(\\d*))+(\\d*)$"
+    transformers:
+      - trimprefix: "jdk-"
+
+conditions:
+  checkIfReleaseIsAvailable:
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
+
+targets:
+  updateJDK19Version:
+    name: Update the JDK19 version in the Packer default values
+    scmid: default
+    kind: dockerfile
+    spec:
+      file: maven/jdk19/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA_VERSION"
+
+pullrequests:
+  default:
+    kind: github
+    title: Bump JDK19 version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - jdk19

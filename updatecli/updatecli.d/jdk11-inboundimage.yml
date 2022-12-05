@@ -1,0 +1,87 @@
+---
+name: Bump JDK11 version on jdk11-nanoserver-1809 (main inbound agent image)
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: githubrelease
+    name: Get the latest jenkinsci:docker-inbound-agent
+    spec:
+      owner: "jenkinsci"
+      repository: "docker-inbound-agent"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: regex
+        #3077.vd69cf116da_6f-3
+        ## not the JDK8 version - regex from https://stackoverflow.com/questions/16398471/regex-for-string-not-ending-with-given-suffix/16398502#16398502
+        pattern: '.*[^-][^j][^d][^k][^8]$'
+
+conditions:
+  checkDockerImagePublished:
+    name: "Is latest dockerfile docker-inbound-agent image published?"
+    kind: dockerimage
+    disablesourceinput: true
+    spec:
+      image: "jenkins/inbound-agent"
+      architecture: "amd64"
+      tag: '{{ source "lastReleaseVersion" }}-jdk11-nanoserver-1809'
+
+targets:
+  updateJDK8FileForJDK11ImgVersion:
+    name: Update the JDK11 image version
+    scmid: default
+    kind: dockerfile
+    spec:
+      file: maven/jdk8/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA11_IMAGE_VERSION"
+  updateJDK11FileForJDK11ImgVersion:
+    name: Update the JDK11 image version
+    scmid: default
+    kind: dockerfile
+    spec:
+      file: maven/jdk11/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA11_IMAGE_VERSION"
+  updateJDK17FileForJDK11ImgVersion:
+    name: Update the JDK11 image version
+    scmid: default
+    kind: dockerfile
+    spec:
+      file: maven/jdk17/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA11_IMAGE_VERSION"
+  updateJDK19FileForJDK11ImgVersion:
+    name: Update the JDK11 image version
+    scmid: default
+    kind: dockerfile
+    spec:
+      file: maven/jdk19/Dockerfile.nanoserver
+      instruction:
+        keyword: "ARG"
+        matcher: "JAVA11_IMAGE_VERSION"
+
+pullrequests:
+  default:
+    kind: github
+    title: Bump JDK11 version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - jdk11

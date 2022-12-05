@@ -1,0 +1,11 @@
+schemaVersion: 2.0.0
+
+commandTests:
+  - name: "Check that `java` is present in the PATH and match jdk11"
+    command: "cmd.exe"
+    args: ["/C", "java", "--version"]
+    expectedOutput: ["Temurin-11"]
+  - name: "Check that `java 11` is present in C:/openjdk-11"
+    command: "cmd.exe"
+    args: ["/C", "C:/openjdk-11/bin/java", "--version"]
+    expectedOutput: ["Temurin-11"]

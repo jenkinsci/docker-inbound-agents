@@ -1,8 +1,9 @@
 # escape=`
 ARG JAVA_VERSION=8u352-b08
+ARG JAVA11_IMAGE_VERSION=3077.vd69cf116da_6f-3
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
 # Use inbound-agent's JDK11 only for running jenkins agent, not as default java
-FROM jenkins/inbound-agent:3077.vd69cf116da_6f-3-jdk11-nanoserver-1809
+FROM jenkins/inbound-agent:${JAVA11_IMAGE_VERSION}-jdk11-nanoserver-1809
 
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
