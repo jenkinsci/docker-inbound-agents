@@ -41,6 +41,10 @@ targets:
     name: Update the JDK19 version in the Packer default values
     scmid: default
     kind: dockerfile
+    transformers:
+      - replacer:
+          from: +
+          to: _
     spec:
       file: maven/jdk19/Dockerfile.nanoserver
       instruction:

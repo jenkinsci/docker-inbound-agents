@@ -46,6 +46,10 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "JAVA_VERSION"
+    transformers:
+      - replacer:
+          from: +
+          to: _
 
 pullrequests:
   default:
