@@ -1,5 +1,5 @@
 ---
-name: Bump JDK11 version on jdk11-nanoserver-1809 (main inbound agent image)
+name: Bump inbound-agent (jdk11-nanoserver-1809) container image version
 
 scms:
   default:
@@ -39,8 +39,8 @@ conditions:
       tag: '{{ source "lastReleaseVersion" }}-jdk11-nanoserver-1809'
 
 targets:
-  updateJDK8FileForJDK11ImgVersion:
-    name: Update the JDK11 image version
+  updateJDK8:
+    name: Update inbound-agent (jdk11-nanoserver-1809) container image version for JDK8 image
     scmid: default
     kind: dockerfile
     spec:
@@ -48,8 +48,8 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "JAVA11_IMAGE_VERSION"
-  updateJDK11FileForJDK11ImgVersion:
-    name: Update the JDK11 image version
+  updateJDK11:
+    name: Update inbound-agent (jdk11-nanoserver-1809) container image version for JDK11 image
     scmid: default
     kind: dockerfile
     spec:
@@ -57,8 +57,8 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "JAVA11_IMAGE_VERSION"
-  updateJDK17FileForJDK11ImgVersion:
-    name: Update the JDK11 image version
+  updateJDK17:
+    name: Update inbound-agent (jdk11-nanoserver-1809) container image version for JDK17 image
     scmid: default
     kind: dockerfile
     spec:
@@ -66,8 +66,8 @@ targets:
       instruction:
         keyword: "ARG"
         matcher: "JAVA11_IMAGE_VERSION"
-  updateJDK19FileForJDK11ImgVersion:
-    name: Update the JDK11 image version
+  updateJDK19:
+    name: Update inbound-agent (jdk11-nanoserver-1809) container image version for JDK19 image
     scmid: default
     kind: dockerfile
     spec:
@@ -79,9 +79,9 @@ targets:
 pullrequests:
   default:
     kind: github
-    title: Bump JDK11 version to {{ source "lastReleaseVersion" }}
+    title: Bump inbound-agent (jdk11) container image version to {{ source "lastReleaseVersion" }}
     scmid: default
     spec:
       labels:
         - enhancement
-        - jdk11
+        - inbound-agent
