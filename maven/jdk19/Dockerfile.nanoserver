@@ -1,6 +1,6 @@
 # escape=`
 ARG JAVA_VERSION=19.0.2_7
-ARG JAVA11_IMAGE_VERSION=3107.v665000b_51092-1
+ARG JAVA11_IMAGE_VERSION=3107.v665000b_51092-2
 
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
 # Use inbound-agent's JDK11 only for running jenkins agent, not as default java
