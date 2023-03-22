@@ -14,30 +14,39 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  mavenVersion:
-    kind: githubrelease
-    name: Get the latest Maven version
+  getPackerImageDeployedVersion:
+    kind: yaml
+    name: Retrieve the current version of the Packer images used in production
     spec:
-      owner: "apache"
-      repository: "maven"
-      token: "{{ requiredEnv .github.token }}"
-      username: "{{ .github.username }}"
-      versionfilter:
-        kind: latest
+      file: https://raw.githubusercontent.com/jenkins-infra/jenkins-infra/production/hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
+  # Retrieving Maven from packer-images to synchronize its version across our infra
+  # See https://github.com/jenkins-infra/docker-inbound-agents/issues/18
+  getMavenVersionFromPackerImages:
+    kind: file
+    name: Get the latest Maven version set in packer-images
+    dependson:
+      - getPackerImageDeployedVersion
+    spec:
+      file: https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source "getPackerImageDeployedVersion" }}/provisioning/tools-versions.yml
+      matchpattern: 'maven_version:\s"(.*)"'
     transformers:
-      - trimprefix: "maven-"
+      - findsubmatch:
+          pattern: 'maven_version:\s"(.*)"'
+          captureindex: 1
 
 conditions:
   checkIfReleaseIsAvailable:
     kind: shell
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion` }}/binaries/apache-maven-{{ source `mavenVersion` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `getMavenVersionFromPackerImages` }}/binaries/apache-maven-{{ source `getMavenVersionFromPackerImages` }}-bin.tar.gz
 
 targets:
   updateMavenJdk8NanoserverVersion:
     name: Update the Maven version for the JDK8 nanoserver container image
     kind: dockerfile
+    sourceid: getMavenVersionFromPackerImages
     spec:
       file: maven/jdk8/Dockerfile.nanoserver
       instruction:
@@ -47,6 +56,7 @@ targets:
   updateMavenJdk11NanoserverVersion:
     name: Update the Maven version for the JDK11 container image
     kind: dockerfile
+    sourceid: getMavenVersionFromPackerImages
     spec:
       file: maven/jdk11/Dockerfile.nanoserver
       instruction:
@@ -56,6 +66,7 @@ targets:
   updateMavenJdk17NanoserverVersion:
     name: Update the Maven version for the JDK17 container image
     kind: dockerfile
+    sourceid: getMavenVersionFromPackerImages
     spec:
       file: maven/jdk17/Dockerfile.nanoserver
       instruction:
@@ -65,6 +76,7 @@ targets:
   updateMavenJdk19NanoserverVersion:
     name: Update the Maven version for the JDK19 container image
     kind: dockerfile
+    sourceid: getMavenVersionFromPackerImages
     spec:
       file: maven/jdk19/Dockerfile.nanoserver
       instruction:
@@ -72,11 +84,11 @@ targets:
         matcher: "MAVEN_VERSION"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
-    title: Bump Maven version to {{ source "mavenVersion" }}
+    title: Bump Maven version to {{ source "getMavenVersionFromPackerImages" }}
     spec:
       labels:
         - dependencies

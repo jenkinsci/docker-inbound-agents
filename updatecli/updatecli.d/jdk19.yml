@@ -51,9 +51,9 @@ targets:
         keyword: "ARG"
         matcher: "JAVA_VERSION"
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     title: Bump JDK19 version to {{ source "lastReleaseVersion" }}
     scmid: default
     spec:

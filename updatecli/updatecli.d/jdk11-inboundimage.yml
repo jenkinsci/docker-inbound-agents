@@ -76,9 +76,9 @@ targets:
         keyword: "ARG"
         matcher: "JAVA11_IMAGE_VERSION"
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     title: Bump inbound-agent (jdk11) container image version to {{ source "lastReleaseVersion" }}
     scmid: default
     spec:

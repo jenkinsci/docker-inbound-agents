@@ -51,9 +51,9 @@ targets:
           from: +
           to: _
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     title: Bump JDK17 version to {{ source "lastReleaseVersion" }}
     scmid: default
     spec:
