@@ -3,7 +3,7 @@ parallel(
   'maven-jdk8-nanoserver': {
     buildDockerAndPublishImage('inbound-agent-maven:jdk8-nanoserver', [
       dockerfile: 'maven/jdk8/Dockerfile.nanoserver',
-      agentLabels: 'windows-amd64-docker',
+      agentLabels: 'docker-windows-2019 && amd64',
       platform: 'windows/amd64',
       imageDir: 'maven/jdk8',
     ])
