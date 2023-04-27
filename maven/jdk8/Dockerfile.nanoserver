@@ -1,5 +1,5 @@
 # escape=`
-ARG JAVA_VERSION=8u362-b09
+ARG JAVA_VERSION=8u372-b07
 ARG JAVA11_IMAGE_VERSION=3107.v665000b_51092-5
 
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
