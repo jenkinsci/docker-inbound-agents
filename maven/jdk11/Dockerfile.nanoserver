@@ -1,19 +1,32 @@
 # escape=`
 ARG JAVA11_IMAGE_VERSION=3107.v665000b_51092-5
+ARG PYTHON_VERSION=3.11.3
+
+FROM python:"${PYTHON_VERSION}"-windowsservercore-1809 AS python
+
+ARG LAUNCHABLE_VERSION=1.63.0
+# hadolint ignore=SC3057,DL3013
+RUN "C:/Python/python.exe" -m pip install --no-cache-dir --upgrade pip; `
+  pip install --no-cache-dir setuptools wheel; `
+  pip install --no-cache-dir launchable=="${env:LAUNCHABLE_VERSION}";
+
 FROM mcr.microsoft.com/windows/servercore:1809 as core
 FROM jenkins/inbound-agent:"${JAVA11_IMAGE_VERSION}"-jdk11-nanoserver-1809
 
-
 # ProgressPreference => Disable Progress bar for faster downloads
 SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Adding python
+COPY --from=python C:/Python C:/tools/python
 
 # https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
 COPY --from=core C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
 
 ARG MAVEN_VERSION=3.9.1
 RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:MAVEN_VERSION}/binaries/apache-maven-${env:MAVEN_VERSION}-bin.zip" -OutFile ${env:TEMP}/apache-maven.zip ; `
-  Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:\tools ; `
+  Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:/tools ; `
   Remove-Item ${env:TEMP}/apache-maven.zip ;
 
-ENV MAVEN_HOME "C:\tools\apache-maven-${MAVEN_VERSION}"
-ENV PATH="${PATH};${MAVEN_HOME}\bin"
+ENV MAVEN_HOME "C:/tools/apache-maven-${MAVEN_VERSION}"
+ENV PYTHON_PATH "C:/tools/python/;C:/tools/python/Scripts/"
+ENV PATH="${PYTHON_PATH};${JAVA_HOME}/bin;${PATH};${MAVEN_HOME}/bin;"

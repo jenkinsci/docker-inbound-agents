@@ -1,0 +1,56 @@
+---
+name: Bump python3 version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: shell
+    name: Get the latest python3 version
+    spec:
+      command: curl https://endoflife.date/api/python.json --silent --show-error | jq -r '.[0].latest'
+
+conditions:
+  ## Only check for chocolatey package
+  checkForChocolateyPackage:
+    kind: shell
+    disablesourceinput: true # Do not pass source as argument to the command line
+    spec:
+      command: curl https://community.chocolatey.org/packages/python3/{{ source "lastReleaseVersion" }} --silent --show-error --location --fail --output /dev/null
+
+targets:
+  updateVersion:
+    name: "Update the python3 version in the Dockerfiles"
+    sourceid: lastReleaseVersion
+    scmid: default
+    kind: file
+    spec:
+      files:
+        - maven/jdk8/Dockerfile.nanoserver
+        - maven/jdk11/Dockerfile.nanoserver
+        - maven/jdk17/Dockerfile.nanoserver
+        - maven/jdk19/Dockerfile.nanoserver
+      matchpattern: >
+        ARG PYTHON_VERSION=(.*)
+      replacepattern: >
+        ARG PYTHON_VERSION={{ source "lastReleaseVersion" }}
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump python3 version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - python3
