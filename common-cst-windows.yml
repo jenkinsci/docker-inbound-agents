@@ -14,16 +14,9 @@ fileExistenceTests:
   - name: "Default user's home"
     path: 'C:/users/jenkins/'
     shouldExist: true
-  - name: "Launchable"
-    path: 'C:/tools/python/Scripts/launchable.exe'
-    shouldExist: true
 
 commandTests:
   - name: "Check that `git` is present in the PATH"
     command: "cmd.exe"
     args: ["/C", "git", "--version"]
     expectedOutput: ["git version .*"]
-  - name: "Check that `python 3` is present in C:/tools/python"
-    command: "cmd.exe"
-    args: ["/C", "C:/tools/python/python.exe", "--version"]
-    expectedOutput: ["Python 3.11.3"]

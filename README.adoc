@@ -1,6 +1,7 @@
 = Inbound Agents
 
 image:https://img.shields.io/docker/pulls/jenkinsciinfra/inbound-agent-maven?label=jenkinsciinfra%2Finbound-agent-maven&logo=docker&logoColor=white[link="https://hub.docker.com/r/jenkinsciinfra/inbound-agent-maven/tags"]
+image:https://img.shields.io/docker/pulls/jenkinsciinfra/inbound-agent?label=jenkinsciinfra%2Finbound-agent&logo=docker&logoColor=white[link="https://hub.docker.com/r/jenkinsciinfra/inbound-agent/tags"]
 image:https://img.shields.io/docker/pulls/jenkinsciinfra/inbound-agent-node?label=jenkinsciinfra%2Finbound-agent-node&logo=docker&logoColor=white[link="https://hub.docker.com/r/jenkinsciinfra/inbound-agent-node/tags"]
 
 This repository is a collection of Docker images which combine the basics
