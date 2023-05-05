@@ -27,6 +27,6 @@ RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:
   Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:/tools ; `
   Remove-Item ${env:TEMP}/apache-maven.zip ;
 
-ENV MAVEN_HOME "C:/tools/apache-maven-${MAVEN_VERSION}"
-ENV PYTHON_PATH "C:/tools/python/;C:/tools/python/Scripts/"
-ENV PATH="${PYTHON_PATH};${JAVA_HOME}/bin;${PATH};${MAVEN_HOME}/bin;"
+ENV PYTHON_PATH="C:\tools\python;C:\tools\python\Scripts"
+ENV MAVEN_HOME="C:\tools\apache-maven-${MAVEN_VERSION}"
+ENV PATH="${PYTHON_PATH};${JAVA_HOME}\bin;${PATH};${MAVEN_HOME}\bin;"
