@@ -9,12 +9,3 @@ commandTests:
     command: "cmd.exe"
     args: ["/C", "C:/openjdk-11/bin/java", "--version"]
     expectedOutput: ["Temurin-11"]
-  - name: "Check that `python 3` is present in C:/tools/python"
-    command: "cmd.exe"
-    args: ["/C", "C:/tools/python/python.exe", "--version"]
-    expectedOutput: ["Python 3.11.3"]
-
-fileExistenceTests:
-  - name: "Launchable"
-    path: 'C:/tools/python/Scripts/launchable.exe'
-    shouldExist: true
