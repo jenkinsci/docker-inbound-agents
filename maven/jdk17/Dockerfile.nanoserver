@@ -5,7 +5,7 @@ ARG PYTHON_VERSION=3.11.3
 
 FROM python:"${PYTHON_VERSION}"-windowsservercore-1809 AS python
 
-ARG LAUNCHABLE_VERSION=1.63.1
+ARG LAUNCHABLE_VERSION=1.64.0
 # hadolint ignore=SC3057,DL3013
 RUN "C:/Python/python.exe" -m pip install --no-cache-dir --upgrade pip; `
   pip install --no-cache-dir setuptools wheel; `
