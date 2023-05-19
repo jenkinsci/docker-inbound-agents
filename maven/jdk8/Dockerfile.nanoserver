@@ -5,11 +5,9 @@ ARG PYTHON_VERSION=3.11.3
 
 FROM python:"${PYTHON_VERSION}"-windowsservercore-1809 AS python
 
-ARG LAUNCHABLE_VERSION=1.64.1
-# hadolint ignore=SC3057,DL3013
+# hadolint ignore=DL3013
 RUN "C:/Python/python.exe" -m pip install --no-cache-dir --upgrade pip; `
-  pip install --no-cache-dir setuptools wheel; `
-  pip install --no-cache-dir launchable=="${env:LAUNCHABLE_VERSION}";
+  pip install --no-cache-dir setuptools wheel;
 
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
 # Use inbound-agent's JDK11 only for running jenkins agent, not as default java
@@ -20,6 +18,10 @@ SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPrefer
 
 # Adding python
 COPY --from=python C:/Python C:/tools/python
+
+# Install Launchable in this layer
+ARG LAUNCHABLE_VERSION=1.64.1
+RUN "C:/tools/python/python.exe" -m pip install --no-cache-dir launchable=="${env:LAUNCHABLE_VERSION}";
 
 # Adding jdk8 from eclipse-temurin
 # Use ENV and not ARG : https://docs.docker.com/engine/reference/builder/#using-arg-variables
