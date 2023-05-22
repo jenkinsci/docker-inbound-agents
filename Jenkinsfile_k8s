@@ -1,3 +1,5 @@
+properties([buildDiscarder(logRotator(daysToKeepStr: '15'))])
+
 parallel(
   failFast: false,
   'maven-jdk8-nanoserver': {
