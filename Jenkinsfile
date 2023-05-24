@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'docker' }
+    agent none
 
     options {
         timeout(time: 1, unit: 'HOURS')
@@ -51,10 +51,11 @@ pipeline {
                         label "docker-windows"
                     }
                     steps {
-                        withCredentials([[$class: 'ZipFileBinding',
-                           credentialsId: 'jenkins-dockerhub',
-                                variable: 'DOCKER_CONFIG']]) {
-                            bat "powershell -File ./make.ps1 -Target push"
+                        script {
+                            // This function is defined in the jenkins-infra/pipeline-library
+                            infra.withDockerCredentials {
+                                bat "powershell -File ./make.ps1 -Target push"
+                            }
                         }
                     }
                 }
@@ -63,10 +64,11 @@ pipeline {
                         label "docker&&linux"
                     }
                     steps {
-                        withCredentials([[$class: 'ZipFileBinding',
-                           credentialsId: 'jenkins-dockerhub',
-                                variable: 'DOCKER_CONFIG']]) {
-                            sh 'make push'
+                        script {
+                            // This function is defined in the jenkins-infra/pipeline-library
+                            infra.withDockerCredentials {
+                                sh 'make push'
+                            }
                         }
                     }
                 }
