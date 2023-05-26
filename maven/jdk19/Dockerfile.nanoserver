@@ -20,7 +20,7 @@ SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPrefer
 COPY --from=python C:/Python C:/tools/python
 
 # Install Launchable in this layer
-ARG LAUNCHABLE_VERSION=1.64.1
+ARG LAUNCHABLE_VERSION=1.65.0
 RUN "C:/tools/python/python.exe" -m pip install --no-cache-dir launchable=="${env:LAUNCHABLE_VERSION}";
 
 # Retrieve JDK11 for running jenkins agent process but do not use it as default
