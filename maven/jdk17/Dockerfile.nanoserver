@@ -31,7 +31,7 @@ COPY --from=core C:/openjdk-17 "${JAVA_HOME}"
 # https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
 COPY --from=core C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
 
-ARG MAVEN_VERSION=3.9.2
+ARG MAVEN_VERSION=3.9.4
 RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:MAVEN_VERSION}/binaries/apache-maven-${env:MAVEN_VERSION}-bin.zip" -OutFile ${env:TEMP}/apache-maven.zip ; `
   Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:/tools ; `
   Remove-Item ${env:TEMP}/apache-maven.zip ;
