@@ -19,7 +19,7 @@ sources:
     name: Retrieve the current version of the Packer images used in production in jenkins-infra/jenkins-infra
     spec:
       file: https://raw.githubusercontent.com/jenkins-infra/jenkins-infra/production/hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
+      key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
   # Retrieving Launchable from packer-images to synchronize its version across our infra
   getLaunchableVersionFromDeployedPackerImages:
     kind: file
@@ -28,10 +28,10 @@ sources:
       - getDeployedPackerImagesVersion
     spec:
       file: https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source "getDeployedPackerImagesVersion" }}/provisioning/tools-versions.yml
-      matchpattern: 'launchable_version:\s"(.*)"'
+      matchpattern: 'launchable_version:\s(.*)'
     transformers:
       - findsubmatch:
-          pattern: 'launchable_version:\s"(.*)"'
+          pattern: 'launchable_version:\s(.*)'
           captureindex: 1
 
 targets:
