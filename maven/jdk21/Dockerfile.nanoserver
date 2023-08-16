@@ -1,0 +1,58 @@
+# escape=`
+ARG JAVA_VERSION=21-jdk
+ARG JAVA11_IMAGE_VERSION=3142.vcfca_0cd92128-1
+ARG PYTHON_VERSION=3.11.3
+
+FROM python:"${PYTHON_VERSION}"-windowsservercore-1809 AS python
+
+# hadolint ignore=DL3013
+RUN "C:/Python/python.exe" -m pip install --no-cache-dir --upgrade pip; `
+  pip install --no-cache-dir setuptools wheel;
+
+## Comment out once temurin publishes an official JDK21 container image
+#FROM eclipse-temurin:${JAVA_VERSION}-jdk-windowsservercore-1809 AS core
+# Use inbound-agent's JDK11 only for running jenkins agent, not as default java
+FROM jenkins/inbound-agent:"${JAVA11_IMAGE_VERSION}"-jdk11-nanoserver-1809
+
+# ProgressPreference => Disable Progress bar for faster downloads
+SHELL ["pwsh.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+ARG toolsDir="C:\tools"
+ARG pythonDir="$toolsDir\python"
+
+ENV PYTHON_PATH="$pythonDir"
+ENV PATH="${pythonDir};${pythonDir}\Scripts;${PATH}"
+
+# Adding python
+COPY --from=python C:/Python $pythonDir
+
+# Install Launchable in this layer
+ARG launchableVersion=1.65.0
+RUN python.exe -m pip install --no-cache-dir launchable=="${env:launchableVersion}";
+
+# Retrieve JDK11 for running jenkins agent process but do not use it as default
+# Use ENV and not ARG : https://docs.docker.com/engine/reference/builder/#using-arg-variables
+ENV JAVA_HOME="$toolsDir\jdk-21"
+ENV PATH="${JAVA_HOME}\bin;${PATH}"
+
+## Remove once temurin publishes an official JDK21 container image
+ARG jdk21Version="2023-08-09-06-56-beta"
+# From https://github.com/jenkins-infra/packer-images/blob/f02d850cb1ce74f4cf2a03af90a5ccd06925cb5c/provisioning/windows-provision.ps1#L126
+RUN $jdk21Url = 'https://github.com/adoptium/temurin21-binaries/releases/download/jdk21-{0}/OpenJDK21U-jdk_x64_windows_hotspot_{1}.zip' -f [System.Web.HTTPUtility]::UrlEncode($env:jdk21Version),$env:jdk21Version.Replace('-beta', ''); `
+  Invoke-WebRequest -Uri "$jdk21Url" -OutFile "${env:TEMP}/temurin21.zip"; `
+  Expand-Archive -Path "${env:TEMP}/temurin21.zip" -Destination "${env:toolsDir}" ; `
+  Remove-Item ${env:TEMP}/temurin21.zip; `
+  Move-Item -Path "${env:toolsDir}\jdk-21*" -Destination "${env:JAVA_HOME}";
+
+## Comment out once temurin publishes an official JDK21 container image
+#COPY --from=core C:/openjdk-21 "${JAVA_HOME}"
+
+# https://github.com/StefanScherer/dockerfiles-windows/tree/master/golang-issue-21867
+COPY --from=python C:/windows/system32/netapi32.dll C:/windows/system32/netapi32.dll
+
+ARG MAVEN_VERSION=3.9.4
+RUN Invoke-WebRequest -Uri "https://archive.apache.org/dist/maven/maven-3/${env:MAVEN_VERSION}/binaries/apache-maven-${env:MAVEN_VERSION}-bin.zip" -OutFile ${env:TEMP}/apache-maven.zip ; `
+  Expand-Archive -Path "${env:TEMP}/apache-maven.zip -Destination" C:/tools ; `
+  Remove-Item ${env:TEMP}/apache-maven.zip ;
+ENV MAVEN_HOME="C:\tools\apache-maven-${MAVEN_VERSION}"
+ENV PATH="${MAVEN_HOME}\bin;${PATH}"
