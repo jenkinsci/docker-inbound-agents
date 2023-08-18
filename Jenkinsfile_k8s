@@ -41,11 +41,6 @@ parallel(
       imageDir: 'maven/jdk21',
     ])
   },
-  'node': {
-    buildDockerAndPublishImage('inbound-agent-node', [
-      dockerfile: 'node/Dockerfile',
-    ])
-  },
   'updatecli': {
     // Test all configs
     updatecli(action: 'diff')
