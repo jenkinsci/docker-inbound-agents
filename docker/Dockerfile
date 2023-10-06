@@ -17,7 +17,7 @@ RUN curl -fsSL https://github.com/docker/compose/releases/download/$DOCKER_COMPO
 RUN uname -m > /tmp/arch \
     && sed -i 's/x86_64/amd64/g' /tmp/arch \
     && mkdir -p /usr/libexec/docker/cli-plugins/  \
-    && curl -fsSL https://github.com/docker/buildx/releases/download/v$DOCKER_BUILDX_VERSION/buildx-v0.11.2.linux-`cat /tmp/arch` > /usr/libexec/docker/cli-plugins/docker-buildx  \
+    && curl -fsSL https://github.com/docker/buildx/releases/download/v$DOCKER_BUILDX_VERSION/buildx-v$DOCKER_BUILDX_VERSION.linux-`cat /tmp/arch` > /usr/libexec/docker/cli-plugins/docker-buildx  \
     && chmod +x /usr/libexec/docker/cli-plugins/docker-buildx \
     && docker buildx install \
     && rm /tmp/arch
