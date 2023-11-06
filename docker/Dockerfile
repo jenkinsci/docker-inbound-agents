@@ -7,7 +7,7 @@ USER root
 RUN apk add --no-cache -u libcurl curl
 
 # Install Docker client, Docker compose, and buildx
-RUN curl -s https://download.docker.com/linux/static/stable/x86_64/ | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n 1 > /tmp/docker_version \
+RUN curl -s https://download.docker.com/linux/static/stable/`uname -m`/ | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -t . -k 1,1n -k 2,2n -k 3,3n | tail -n 1 > /tmp/docker_version \
     && curl -fsSL https://download.docker.com/linux/static/stable/`uname -m`/docker-`cat /tmp/docker_version`.tgz | tar --strip-components=1 -xz -C /usr/local/bin docker/docker \
     && rm /tmp/docker_version
 RUN curl -s -I https://github.com/docker/compose/releases/latest | awk -F '/' '/^location/ {print substr($NF, 1, length($NF)-1)}'  > /tmp/compose_version \
@@ -19,7 +19,7 @@ RUN curl -s -I https://github.com/docker/compose/releases/latest | awk -F '/' '/
 RUN uname -m > /tmp/arch \
     && sed -i 's/x86_64/amd64/g' /tmp/arch \
     && curl -s -I https://github.com/docker/buildx/releases/latest | awk -F '/' '/^location/ {print substr($NF, 1, length($NF)-1)}' > /tmp/buildx_version \
-    && curl -fsSL https://github.com/docker/buildx/releases/download/`cat /tmp/buildx_version`/buildx-`cat /tmp/buildx_version`.linux-`cat /tmp/arch` > /usr/libexec/docker/cli-plugins/docker-buildx \
+    && curl -fsSL https://github.com/docker/buildx/releases/download/`cat /tmp/buildx_version`/buildx-`cat /tmp/buildx_version`.`uname -s`-`cat /tmp/arch` > /usr/libexec/docker/cli-plugins/docker-buildx \
     && chmod +x /usr/libexec/docker/cli-plugins/docker-buildx \
     && docker buildx install \
     && rm /tmp/arch /tmp/buildx_version
