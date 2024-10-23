@@ -1,6 +1,6 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:latest-alpine-jdk8 AS jnlp
 
-FROM maven:3.6.3-jdk-8-slim
+FROM maven:3.8.6-jdk-8-slim
 
 RUN apt-get update && \
     apt-get install -y \
