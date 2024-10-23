@@ -1,6 +1,6 @@
 FROM jenkins/inbound-agent:alpine as jnlp
 
-FROM golang:1.15-alpine3.12
+FROM golang:1.16-alpine3.12
 
 RUN apk -U add openjdk11-jre
 
