@@ -1,6 +1,6 @@
 FROM jenkins/inbound-agent:jdk11 as jenkins-agent
 
-FROM ruby:3.2.1-bullseye
+FROM ruby:3.3.5-bullseye
 
 USER root
 
