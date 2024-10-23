@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:jdk11 as jenkins-agent
+FROM jenkins/inbound-agent:jdk11 AS jenkins-agent
 
 FROM ruby:3.3.5-bullseye
 
@@ -19,7 +19,7 @@ COPY --from=jenkins-agent /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-ag
 COPY --from=jenkins-agent /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
 
 ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH "${JAVA_HOME}/bin:${PATH}"
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 COPY --from=jenkins-agent $JAVA_HOME $JAVA_HOME
 
 USER $JENKINS_USERNAME

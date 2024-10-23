@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:latest-alpine-jdk11 AS jnlp
 
 FROM hashicorp/terraform:light
 

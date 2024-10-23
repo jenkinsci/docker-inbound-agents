@@ -1,6 +1,6 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:latest-alpine-jdk11 AS jnlp
 
-from mcr.microsoft.com/powershell:7.4-alpine-3.17
+FROM mcr.microsoft.com/powershell:7.4-alpine-3.17
 
 RUN apk -U add openjdk11-jre
 

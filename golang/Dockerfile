@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:latest-alpine-jdk11 AS jnlp
 
 FROM golang:1.16-alpine3.12
 

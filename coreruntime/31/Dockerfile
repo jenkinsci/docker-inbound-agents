@@ -1,4 +1,4 @@
-FROM jenkins/inbound-agent:alpine as jnlp
+FROM jenkins/inbound-agent:alpine AS jnlp
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine
 
