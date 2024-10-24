@@ -1,0 +1,114 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/alpine"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/coreruntime/22"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/coreruntime/30"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/coreruntime/31"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/coresdk/31"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/coresdk/50"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/docker"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/golang"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/maven/jdk11"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/maven/jdk8"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/node"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/powershell"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/python/python2"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/python/python3"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/ruby"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "docker"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    open-pull-requests-limit: 10

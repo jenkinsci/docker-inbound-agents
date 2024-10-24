@@ -20,7 +20,7 @@ ABS_ROOT_DIR=$(realpath $(ROOT_DIR))
 NAME=$(GROUP)/$(PREFIX)-$(SUFFIX)
 
 build:
-	docker build -t $(NAME) .
+	docker buildx build --load -t $(NAME) .
 	mkdir -p $(shell dirname $(IMAGE_TAR))
 	docker save --output $(IMAGE_TAR) $(NAME)
 
